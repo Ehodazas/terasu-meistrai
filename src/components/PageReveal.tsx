@@ -20,29 +20,31 @@ export function PageReveal({ scope, pageKey }: { scope: RefObject<HTMLElement | 
         root.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
           const split = SplitText.create(el, { type: 'words', mask: 'words' })
           gsap.from(split.words, {
-            yPercent: 110,
-            duration: 1,
-            ease: 'power4.out',
-            stagger: 0.045,
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+            yPercent: 100,
+            duration: 0.55,
+            ease: 'power3.out',
+            stagger: 0.015,
+            // prasideda vos antraštei pasirodžius ekrano apačioje – tekstas nespėja „laukti“
+            scrollTrigger: { trigger: el, start: 'top bottom-=20', once: true },
           })
         })
 
         // Nuotraukų rėmai
         root.querySelectorAll<HTMLElement>('[data-reveal="img"]').forEach((el) => {
           const img = el.querySelector('img')
-          const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 90%', once: true } })
-          tl.fromTo(el, { clipPath: 'inset(18% 0% 0% 0% round 16px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 1.3, ease: 'expo.out' })
-          if (img) tl.from(img, { scale: 1.18, duration: 1.6, ease: 'expo.out' }, 0)
+          const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top bottom', once: true } })
+          tl.fromTo(el, { clipPath: 'inset(8% 0% 0% 0% round 16px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.8, ease: 'power3.out' })
+          if (img) tl.from(img, { scale: 1.08, duration: 1, ease: 'power3.out' }, 0)
         })
 
         // Paprasti elementai – grupėmis
         const items = gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal="img"])', root)
-        gsap.set(items, { y: 36, autoAlpha: 0 })
+        // Trumpas ir nedidelis judesys; prasideda dar prieš elementui pasirodant ekrane
+        gsap.set(items, { y: 14, autoAlpha: 0 })
         ScrollTrigger.batch(items, {
-          start: 'top 92%',
+          start: 'top bottom+=60',
           once: true,
-          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.95, ease: 'power3.out', stagger: 0.09, overwrite: true }),
+          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.45, ease: 'power2.out', stagger: 0.04, overwrite: true }),
         })
 
         // Paralaksas

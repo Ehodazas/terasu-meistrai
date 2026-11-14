@@ -68,7 +68,7 @@ puslapyje – skaidrių hero, bėganti juosta ir kompiuteryje prisegama horizont
 
 Atidarykite `src/data/site.ts`:
 
-- `phone`, `phoneHref`, `email`, `address`, `hours`, `serviceArea` – įrašykite tikrus duomenis;
+- `phone`, `phoneHref`, `email`, `address`, `hours`, `regionSummary`, `serviceArea` – įrašykite tikrus duomenis;
 - `url` – tikras domenas (naudojamas canonical, Open Graph, sitemap);
 - `isPlaceholder: false` – paslėps žymas „Pavyzdiniai kontaktiniai duomenys“.
 
@@ -94,7 +94,7 @@ Socialinių tinklų paveikslėlis – `public/images/og-image.jpg` (1200×630).
 ## 5. Projektų (atliktų darbų) keitimas
 
 `src/data/projects.ts`: pakeiskite demonstracinius įrašus tikrais projektais. Kiekvienas projektas turi
-`slug` (URL dalis), `title`, `material`, `type`, `area`, `tags` (`medines` / `wpc` / `atnaujinimas` – filtrai),
+`slug` (URL dalis), `title`, `material`, `type`, `area`, `duration` (darbų trukmė), `tags` (`medines` / `wpc` / `atnaujinimas` – filtrai),
 aprašymą, darbų sąrašą ir nuotraukų raktus. Kai neliks demonstracinių projektų, nustatykite
 `DEMO_PROJECTS = false`, o `Project` tipe pašalinkite `demo: true` ir su juo susijusias „Pavyzdys“ /
 „Demonstracinis projektas“ žymas (`ProjectCard.tsx`, `ProjectDetail.tsx`, `Home.tsx`).

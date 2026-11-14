@@ -25,12 +25,26 @@ export function ProjectCard({ project, aspect = 'aspect-[4/3]', sizes = '(min-wi
           <H className="text-lg font-medium leading-snug tracking-[-0.015em] sm:text-xl">
             <span className="link-underline">{project.title}</span>
           </H>
-          <p className="mt-1.5 text-sm text-muted">
-            {project.material} <span aria-hidden="true">·</span> {project.type}
-          </p>
+          <p className="mt-1 text-sm text-muted">{project.type}</p>
         </div>
         <span className="mt-1 shrink-0 text-xs uppercase tracking-[0.12em] text-muted/80">Pavyzdys</span>
       </div>
+      <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-line pt-4 text-sm">
+        {[
+          ['Medžiaga', project.material],
+          ['Plotas', project.area],
+          ['Trukmė', project.duration],
+        ].map(([k, v]) => (
+          <div key={k}>
+            <dt className="text-xs text-muted">{k}</dt>
+            <dd className="mt-0.5 font-medium leading-snug">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink-2">
+        <span className="text-muted">Atlikta: </span>
+        {project.scope.join(' · ')}
+      </p>
     </Link>
   )
 }

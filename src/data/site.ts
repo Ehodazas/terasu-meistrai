@@ -22,6 +22,9 @@ export const site = {
     { days: 'Sekmadienis', time: 'Nedirbame' },
   ],
 
+  /** Trumpas darbo regiono aprašymas (rodomas hero ir antraštėje) – pavyzdys. */
+  regionSummary: 'Vilniaus, Kauno ir Klaipėdos regionuose',
+
   /** Aptarnaujama teritorija – pavyzdys, pakeiskite pagal realią darbo zoną. */
   serviceArea: [
     'Vilnius ir Vilniaus rajonas',

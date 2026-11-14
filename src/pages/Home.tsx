@@ -1,4 +1,4 @@
-import { ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, MapPin, Pause, Play } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ButtonLink, TextLink } from '../components/Button'
@@ -25,6 +25,7 @@ export default function Home() {
     <>
       <Seo entry={seo.home} />
       <Hero />
+      <ServiceRegion />
       <Marquee />
       <Intro />
       <ServicesList />
@@ -69,12 +70,11 @@ function Hero() {
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
         const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
-        tl.from('[data-hero-line]', { yPercent: 115, duration: 1.2, stagger: 0.1 }, 0.2)
-          .from('[data-hero-fade]', { y: 20, autoAlpha: 0, duration: 1, ease: 'power3.out', stagger: 0.08 }, 0.6)
-        // Tekstas lėtai kyla ir blėsta slenkant žemyn
+        tl.from('[data-hero-line]', { yPercent: 105, duration: 0.8, stagger: 0.08 }, 0.1)
+          .from('[data-hero-fade]', { y: 12, autoAlpha: 0, duration: 0.6, ease: 'power2.out', stagger: 0.05 }, 0.35)
+        // Tekstas šiek tiek kyla slenkant žemyn (neblunka – lieka įskaitomas)
         gsap.to('[data-hero-content]', {
-          yPercent: -18,
-          autoAlpha: 0.2,
+          yPercent: -10,
           ease: 'none',
           scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
         })
@@ -141,6 +141,10 @@ function Hero() {
                 Peržiūrėti darbus
               </ButtonLink>
             </div>
+            <a data-hero-fade href="#darbo-regionas" className="mt-6 inline-flex items-center gap-2 text-sm text-white/85 transition-colors hover:text-white">
+              <MapPin className="h-4 w-4 text-wood" aria-hidden="true" />
+              Dirbame {site.regionSummary}
+            </a>
           </div>
 
           {/* Skaidrių valdymas */}
@@ -195,6 +199,45 @@ function Hero() {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Darbo regionas – iškart po hero, kad lankytojas žinotų, ar atvyksime */
+/* ------------------------------------------------------------------ */
+
+function ServiceRegion() {
+  return (
+    <section id="darbo-regionas" aria-labelledby="region-title" className="scroll-mt-24 bg-forest text-paper">
+      <div className="wrap grid gap-8 py-10 sm:py-12 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <div className="flex items-start gap-4 lg:col-span-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-paper/10">
+            <MapPin className="h-5 w-5 text-wood" aria-hidden="true" />
+          </span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-wood">Darbo regionas</p>
+            <h2 id="region-title" className="mt-1.5 font-display text-xl font-medium leading-snug !text-paper sm:text-2xl">
+              Atvykstame į objektus {site.regionSummary}
+            </h2>
+          </div>
+        </div>
+        <ul className="flex flex-wrap gap-2 lg:col-span-5">
+          {site.serviceArea.map((a) => (
+            <li key={a} className="rounded-full border border-paper/20 px-4 py-2 text-[0.9375rem] text-paper/90">
+              {a}
+            </li>
+          ))}
+        </ul>
+        <div className="lg:col-span-3 lg:text-right">
+          <p className="text-sm leading-relaxed text-paper/70">Objektas kitur Lietuvoje? Parašykite – įvertinsime galimybes.</p>
+          <Link to="/kontaktai#darbo-zona" className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-paper link-underline">
+            Plačiau apie darbo zoną
+            <ArrowRight className="h-4 w-4 text-wood" aria-hidden="true" />
+          </Link>
+          {site.isPlaceholder && <p className="mt-2 text-xs text-paper/45">Regionas nurodytas kaip pavyzdys.</p>}
         </div>
       </div>
     </section>
@@ -372,7 +415,7 @@ function ProjectsRail() {
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-white sm:p-6">
                   <div>
                     <p className="text-[0.8125rem] text-white/75">
-                      {p.material} · {p.type}
+                      {p.material} · {p.area} · {p.duration}
                     </p>
                     <h3 className="mt-1 font-display text-xl font-medium leading-snug !text-white sm:text-2xl">{p.title}</h3>
                   </div>

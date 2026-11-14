@@ -18,6 +18,8 @@ export interface Project {
   material: string
   type: string
   area: string
+  /** Apytikslė darbų trukmė objekte (demonstracinė). */
+  duration: string
   tags: ProjectTag[]
   summary: string
   description: string[]
@@ -40,6 +42,7 @@ export const projects: Project[] = [
     material: 'WPC kompozitas',
     type: 'Terasa prie modernaus namo',
     area: '≈ 70 m²',
+    duration: '≈ 8 darbo dienos',
     tags: ['wpc'],
     summary: 'Šviesi kompozitinė terasa, tęsianti svetainės grindų liniją į lauką.',
     description: [
@@ -56,6 +59,7 @@ export const projects: Project[] = [
     material: 'Impregnuota pušis',
     type: 'Terasa su laiptais',
     area: '≈ 55 m²',
+    duration: '≈ 10 darbo dienų',
     tags: ['medines'],
     summary: 'Kelių lygių terasa, sujungianti namo išėjimą, poilsio zoną ir pakeltas daržo lysves.',
     description: [
@@ -72,6 +76,7 @@ export const projects: Project[] = [
     material: 'Maumedis',
     type: 'Terasa su laiptais',
     area: '≈ 30 m²',
+    duration: '≈ 6 darbo dienos',
     tags: ['medines'],
     summary: 'Pakelta maumedžio terasa su plačiomis pakopomis, kurios atlieka ir sėdimos vietos funkciją.',
     description: [
@@ -88,6 +93,7 @@ export const projects: Project[] = [
     material: 'Termomediena',
     type: 'Terasa su pergole',
     area: '≈ 45 m²',
+    duration: '≈ 9 darbo dienos',
     tags: ['medines'],
     summary: 'Termomedienos terasa su medine pergole virš valgomojo zonos.',
     description: [
@@ -104,6 +110,7 @@ export const projects: Project[] = [
     material: 'WPC kompozitas',
     type: 'Kiemo terasa',
     area: '≈ 40 m²',
+    duration: '≈ 5 darbo dienos',
     tags: ['wpc'],
     summary: 'Ramių pilkų tonų kompozitinė terasa su įmontuotu suolu ir vietomis augalams.',
     description: [
@@ -120,6 +127,7 @@ export const projects: Project[] = [
     material: 'Maumedis',
     type: 'Didelė lauko erdvė',
     area: '≈ 120 m²',
+    duration: '≈ 3 savaitės',
     tags: ['medines'],
     summary: 'Didelė medinė aikštelė prieš namą, skirta šventėms ir buvimui lauke.',
     description: [
@@ -136,6 +144,7 @@ export const projects: Project[] = [
     material: 'Impregnuota pušis',
     type: 'Nedidelė sodo terasa',
     area: '≈ 12 m²',
+    duration: '≈ 2 darbo dienos',
     tags: ['medines'],
     summary: 'Nedidelė terasa sodo gilumoje – vieta rytinei kavai ir skaitymui.',
     description: [
@@ -152,6 +161,7 @@ export const projects: Project[] = [
     material: 'Maumedis',
     type: 'Terasa prie namo',
     area: '≈ 35 m²',
+    duration: '≈ 6 darbo dienos',
     tags: ['medines'],
     summary: 'Medinė terasa prie svetainės durų su suolu, turėklais ir vaizdu į mišką.',
     description: [
@@ -168,6 +178,7 @@ export const projects: Project[] = [
     material: 'WPC kompozitas',
     type: 'Terasa vakaro poilsiui',
     area: '≈ 25 m²',
+    duration: '≈ 5 darbo dienos',
     tags: ['wpc'],
     summary: 'Tamsi kompozitinė terasa su griliu, lauko sofa ir šiltu apšvietimu.',
     description: [
@@ -184,6 +195,7 @@ export const projects: Project[] = [
     material: 'Impregnuota pušis',
     type: 'Terasos atnaujinimas',
     area: '≈ 28 m²',
+    duration: '≈ 3 darbo dienos',
     tags: ['atnaujinimas', 'medines'],
     summary: 'Esama terasa su tvirta konstrukcija – pakeistos pažeistos lentos, paviršius nušlifuotas ir iš naujo apdorotas.',
     description: [
@@ -200,6 +212,7 @@ export const projects: Project[] = [
     material: 'Impregnuota pušis',
     type: 'Terasos atnaujinimas',
     area: '≈ 22 m²',
+    duration: '≈ 4 darbo dienos',
     tags: ['atnaujinimas', 'medines'],
     summary: 'Pakeltos terasos danga ir turėklai pakeisti naujais, išsaugant esamas atramas.',
     description: [
@@ -216,6 +229,7 @@ export const projects: Project[] = [
     material: 'WPC kompozitas',
     type: 'Terasos atnaujinimas',
     area: '≈ 32 m²',
+    duration: '≈ 4 darbo dienos',
     tags: ['atnaujinimas', 'wpc'],
     summary: 'Sena medinė danga pakeista kompozitinėmis lentomis, pritaikius esamą pagrindą.',
     description: [

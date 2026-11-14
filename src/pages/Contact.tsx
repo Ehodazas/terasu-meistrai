@@ -103,7 +103,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section aria-labelledby="area-title" className="border-t border-line bg-paper-2/60 py-20 sm:py-28">
+      <section id="darbo-zona" aria-labelledby="area-title" className="scroll-mt-24 border-t border-line bg-paper-2/60 py-20 sm:py-28">
         <div className="wrap grid gap-10 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4">
             <p className="eyebrow">Darbo zona</p>

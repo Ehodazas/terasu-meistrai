@@ -21,7 +21,7 @@ export default function ProjectDetail() {
       if (index < 0) return
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
-        gsap.from('[data-enter]', { y: 20, autoAlpha: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07 })
+        gsap.from('[data-enter]', { y: 12, autoAlpha: 0, duration: 0.5, ease: 'power2.out', stagger: 0.05 })
       })
     },
     { scope: ref, dependencies: [slug], revertOnUpdate: true },
@@ -96,7 +96,8 @@ export default function ProjectDetail() {
             ['Medžiaga', project.material],
             ['Projekto tipas', project.type],
             ['Plotas', project.area],
-            ['Statusas', 'Demonstracinis pavyzdys'],
+            ['Darbų trukmė', project.duration],
+            ['Atlikta etapų', String(project.scope.length)],
           ].map(([k, v]) => (
             <div key={k}>
               <dt className="text-sm text-muted">{k}</dt>

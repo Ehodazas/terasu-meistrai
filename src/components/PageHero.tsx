@@ -20,8 +20,8 @@ export function PageHero({ eyebrow, title, lead, image, imageClass = 'aspect-[4/
     () => {
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
-        gsap.from('[data-enter]', { y: 22, autoAlpha: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08 })
-        gsap.from('[data-enter-img] img', { scale: 1.06, duration: 1.6, ease: 'power2.out' })
+        gsap.from('[data-enter]', { y: 12, autoAlpha: 0, duration: 0.5, ease: 'power2.out', stagger: 0.05 })
+        gsap.from('[data-enter-img] img', { scale: 1.04, duration: 1, ease: 'power2.out' })
       })
     },
     { scope: ref },
