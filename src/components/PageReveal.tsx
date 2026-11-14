@@ -1,11 +1,11 @@
 import type { RefObject } from 'react'
-import { gsap, MOTION_OK, ScrollTrigger, SplitText, useGSAP } from '../lib/motion'
+import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from '../lib/motion'
 
 /**
  * Bendra slinkimo animacijų sistema. Puslapyje pažymėkite elementus:
  *  - data-reveal            – iškyla iš apačios (grupėmis, su nedideliu vėlavimu)
  *  - data-reveal="img"      – nuotraukos rėmas atsiveria iš apačios, nuotrauka nusileidžia iš priartinimo
- *  - data-split             – antraštė, kurios žodžiai iškyla po vieną
+ *  - data-split             – antraštė; pasirodo visa iš karto, kaip ir data-reveal
  *  - data-parallax          – nuotrauka rėme lėtai slenka (rėmui reikia overflow-hidden)
  * Esant „prefers-reduced-motion“ – niekas neanimuojama, turinys matomas iš karto.
  */
@@ -16,35 +16,23 @@ export function PageReveal({ scope, pageKey }: { scope: RefObject<HTMLElement | 
       if (!root) return
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
-        // Antraštės: žodžiai iškyla iš po kaukės
-        root.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
-          const split = SplitText.create(el, { type: 'words', mask: 'words' })
-          gsap.from(split.words, {
-            yPercent: 100,
-            duration: 0.55,
-            ease: 'power3.out',
-            stagger: 0.015,
-            // prasideda vos antraštei pasirodžius ekrano apačioje – tekstas nespėja „laukti“
-            scrollTrigger: { trigger: el, start: 'top bottom-=20', once: true },
-          })
-        })
-
         // Nuotraukų rėmai
         root.querySelectorAll<HTMLElement>('[data-reveal="img"]').forEach((el) => {
           const img = el.querySelector('img')
           const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top bottom', once: true } })
-          tl.fromTo(el, { clipPath: 'inset(8% 0% 0% 0% round 16px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.8, ease: 'power3.out' })
-          if (img) tl.from(img, { scale: 1.08, duration: 1, ease: 'power3.out' }, 0)
+          tl.fromTo(el, { clipPath: 'inset(8% 0% 0% 0% round 16px)' }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.6, ease: 'power3.out' })
+          if (img) tl.from(img, { scale: 1.06, duration: 0.8, ease: 'power3.out' }, 0)
         })
 
         // Paprasti elementai – grupėmis
-        const items = gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal="img"])', root)
+        const items = gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal="img"]), [data-split]', root)
         // Trumpas ir nedidelis judesys; prasideda dar prieš elementui pasirodant ekrane
-        gsap.set(items, { y: 14, autoAlpha: 0 })
+        gsap.set(items, { y: 8, autoAlpha: 0 })
         ScrollTrigger.batch(items, {
-          start: 'top bottom+=60',
+          start: 'top bottom+=80',
+          interval: 0.05,
           once: true,
-          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.45, ease: 'power2.out', stagger: 0.04, overwrite: true }),
+          onEnter: (batch) => gsap.to(batch, { y: 0, autoAlpha: 1, duration: 0.3, ease: 'power2.out', stagger: { amount: 0.12 }, overwrite: true }),
         })
 
         // Paralaksas

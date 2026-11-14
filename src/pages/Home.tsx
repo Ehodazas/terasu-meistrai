@@ -1,5 +1,5 @@
-import { ArrowRight, ArrowUpRight, MapPin, Pause, Play } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, MapPin, Pause, Play } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { ButtonLink, TextLink } from '../components/Button'
 import { Faq } from '../components/Faq'
@@ -18,7 +18,7 @@ import { seo } from '../data/seo'
 import { services } from '../data/services'
 import { site } from '../data/site'
 import { useMediaQuery } from '../lib/browser'
-import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from '../lib/motion'
+import { gsap, MOTION_OK, useGSAP } from '../lib/motion'
 
 export default function Home() {
   return (
@@ -90,7 +90,7 @@ function Hero() {
       ref={ref}
       aria-roledescription="karuselė"
       aria-label="Terasų pavyzdžiai"
-      className="relative flex h-[100svh] max-h-[1080px] min-h-[660px] items-end overflow-hidden bg-ink text-white"
+      className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink pt-28 text-white lg:h-[100svh] lg:max-h-[1080px] lg:min-h-[660px] lg:pt-0"
     >
       {slides.map((s, i) => (
         <div
@@ -150,12 +150,17 @@ function Hero() {
           {/* Skaidrių valdymas */}
           <div data-hero-fade className="lg:col-span-4 lg:col-start-9">
             <Link
+              key={current.slug}
               to={`/atlikti-darbai/${current.slug}`}
-              className="group mb-5 hidden items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-md transition-colors hover:bg-white/15 lg:flex"
+              aria-live="polite"
+              className="fade-in group mb-4 flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-white/10 p-3 backdrop-blur-md transition-colors hover:bg-white/15 sm:p-4 lg:mb-5"
             >
-              <span>
-                <span className="block text-xs uppercase tracking-[0.14em] text-white/60">Nuotraukoje · pavyzdys</span>
-                <span className="mt-1 block font-display font-medium">{current.title}</span>
+              <span className="min-w-0">
+                <span className="block text-[0.6875rem] uppercase tracking-[0.14em] text-white/60 sm:text-xs">Nuotraukoje · pavyzdys</span>
+                <span className="mt-0.5 block truncate font-display text-[0.9375rem] font-medium sm:text-base">{current.title}</span>
+                <span className="mt-0.5 hidden text-[0.8125rem] text-white/70 sm:block">
+                  {current.material} · {current.area} · {current.duration}
+                </span>
               </span>
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-ink transition-transform duration-500 group-hover:rotate-45">
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -171,7 +176,8 @@ function Hero() {
                     key={s.image}
                     type="button"
                     onClick={() => setActive(i)}
-                    aria-label={`Rodyti ${i + 1} nuotrauką`}
+                    aria-label={`Rodyti nuotrauką: ${getProject(s.project)!.title}`}
+                    title={getProject(s.project)!.title}
                     aria-current={i === active}
                     className="group relative h-8 flex-1"
                   >
@@ -351,75 +357,125 @@ function ServicesList() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Projektų juosta: kompiuteryje – prisegama ir slenka horizontaliai    */
+/* Projektų juosta: įprastas horizontalus slinkimas – rodyklėmis,       */
+/* pele tempiant arba pirštu braukiant (be puslapio „užrakinimo“)       */
 /* ------------------------------------------------------------------ */
 
 function ProjectsRail() {
-  const sectionRef = useRef<HTMLElement>(null)
   const viewportRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLUListElement>(null)
+  const [progress, setProgress] = useState(0)
+  const [edges, setEdges] = useState({ start: true, end: false })
+  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null)
   const list = projects.slice(0, 8)
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
-      mm.add(`(min-width: 1024px) and ${MOTION_OK}`, () => {
-        const viewport = viewportRef.current!
-        const track = trackRef.current!
-        gsap.set(viewport, { overflow: 'visible' })
-        const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth)
-        gsap.to(track, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: () => `+=${distance()}`,
-            pin: true,
-            scrub: 0.8,
-            invalidateOnRefresh: true,
-          },
-        })
-        gsap.fromTo(
-          '[data-rail-progress]',
-          { scaleX: 0 },
-          { scaleX: 1, ease: 'none', scrollTrigger: { trigger: sectionRef.current, start: 'top top', end: () => `+=${distance()}`, scrub: true } },
-        )
-        ScrollTrigger.refresh()
-      })
-    },
-    { scope: sectionRef },
-  )
+  const update = useCallback(() => {
+    const v = viewportRef.current
+    if (!v) return
+    const max = v.scrollWidth - v.clientWidth
+    setProgress(max > 0 ? v.scrollLeft / max : 0)
+    setEdges({ start: v.scrollLeft < 8, end: v.scrollLeft > max - 8 })
+  }, [])
+
+  useEffect(() => {
+    const v = viewportRef.current
+    if (!v) return
+    v.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      v.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [update])
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const v = viewportRef.current
+    const card = v?.querySelector('li')
+    if (!v || !card) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    v.scrollBy({ left: dir * (card.getBoundingClientRect().width + 24), behavior: reduce ? 'auto' : 'smooth' })
+  }
+
+  // Tempimas pele (lietimui naudojamas įprastas braukimas)
+  const onPointerDown = (e: ReactPointerEvent) => {
+    if (e.pointerType !== 'mouse' || !viewportRef.current) return
+    drag.current = { x: e.clientX, left: viewportRef.current.scrollLeft, moved: false }
+  }
+  const onPointerMove = (e: ReactPointerEvent) => {
+    const d = drag.current
+    const v = viewportRef.current
+    if (!d || !v) return
+    const dx = e.clientX - d.x
+    if (Math.abs(dx) > 5 && !d.moved) {
+      d.moved = true
+      v.style.scrollSnapType = 'none'
+      v.setPointerCapture(e.pointerId)
+    }
+    if (d.moved) v.scrollLeft = d.left - dx
+  }
+  const endDrag = () => {
+    const v = viewportRef.current
+    if (v) v.style.scrollSnapType = ''
+    // paliekame žymą, kad po tempimo nesuveiktų paspaudimas ant kortelės
+    window.setTimeout(() => (drag.current = null), 0)
+  }
+
+  const arrowBtn =
+    'flex h-12 w-12 items-center justify-center rounded-full border border-ink/15 bg-paper text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper disabled:pointer-events-none disabled:opacity-30'
 
   return (
-    <section ref={sectionRef} aria-labelledby="rail-title" className="overflow-hidden py-20 sm:py-28 lg:flex lg:min-h-screen lg:flex-col lg:justify-center lg:pb-10 lg:pt-28">
+    <section aria-labelledby="rail-title" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
         <SectionHead index="02" eyebrow="Darbų pavyzdžiai" title="Terasos skirtingiems namams" id="rail-title" className="lg:flex-1" />
-        <TextLink to="/atlikti-darbai" className="shrink-0">
-          Visi pavyzdžiai
-        </TextLink>
+        <div className="flex shrink-0 items-center gap-6">
+          <TextLink to="/atlikti-darbai">Visi pavyzdžiai</TextLink>
+          <div className="hidden gap-2 sm:flex">
+            <button type="button" onClick={() => scrollByCard(-1)} disabled={edges.start} aria-label="Ankstesni projektai" className={arrowBtn}>
+              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button type="button" onClick={() => scrollByCard(1)} disabled={edges.end} aria-label="Kiti projektai" className={arrowBtn}>
+              <ArrowRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div ref={viewportRef} className="no-scrollbar mt-12 snap-x snap-mandatory overflow-x-auto lg:mt-14">
-        <ul ref={trackRef} className="flex w-max gap-4 px-5 sm:gap-6 sm:px-8 lg:px-12">
+      <div
+        ref={viewportRef}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onClickCapture={(e) => {
+          if (drag.current?.moved) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }}
+        className="no-scrollbar mt-12 cursor-grab snap-x snap-mandatory overflow-x-auto active:cursor-grabbing lg:mt-14"
+      >
+        <ul className="flex w-max gap-4 px-5 sm:gap-6 sm:px-8 lg:px-12">
           {list.map((p, i) => (
-            <li key={p.slug} className="w-[78vw] shrink-0 snap-start sm:w-[44vw] lg:w-[30vw] xl:w-[27vw]">
-              <Link to={`/atlikti-darbai/${p.slug}`} className="group relative block aspect-[4/5] overflow-hidden rounded-[var(--radius-img)] bg-sand">
-                <div className="img-zoom h-full w-full">
+            <li key={p.slug} data-reveal className="w-[78vw] shrink-0 snap-start scroll-ml-5 sm:w-[44vw] sm:scroll-ml-8 lg:w-[30vw] lg:scroll-ml-12 xl:w-[27vw]">
+              <Link
+                to={`/atlikti-darbai/${p.slug}`}
+                draggable={false}
+                className="group relative block aspect-[4/5] overflow-hidden rounded-[var(--radius-img)] bg-sand"
+              >
+                <div className="img-zoom pointer-events-none h-full w-full">
                   <Img name={p.images[0]} sizes="(min-width: 1024px) 30vw, 78vw" />
                 </div>
-                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                 <span className="absolute left-4 top-4 rounded-full bg-paper/90 px-3 py-1 font-display text-xs font-semibold tabular-nums text-ink backdrop-blur">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-white sm:p-6">
                   <div>
-                    <p className="text-[0.8125rem] text-white/75">
+                    <p className="text-[0.8125rem] text-white/80">
                       {p.material} · {p.area} · {p.duration}
                     </p>
                     <h3 className="mt-1 font-display text-xl font-medium leading-snug !text-white sm:text-2xl">{p.title}</h3>
                   </div>
-                  <span className="flex h-11 w-11 shrink-0 translate-y-2 items-center justify-center rounded-full bg-white text-ink opacity-0 transition-all duration-500 ease-out-soft group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-ink transition-transform duration-500 ease-out-soft group-hover:-rotate-45">
                     <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </span>
                 </div>
@@ -429,6 +485,7 @@ function ProjectsRail() {
           <li className="w-[78vw] shrink-0 snap-start sm:w-[44vw] lg:w-[24vw]">
             <Link
               to="/atlikti-darbai"
+              draggable={false}
               className="group flex aspect-[4/5] flex-col justify-between rounded-[var(--radius-img)] bg-forest p-7 text-paper transition-colors hover:bg-forest-dark"
             >
               <span className="eyebrow !text-wood">Galerija</span>
@@ -443,12 +500,20 @@ function ProjectsRail() {
         </ul>
       </div>
 
-      <div className="wrap mt-10 flex items-center gap-6">
-        <span className="relative hidden h-px flex-1 bg-line lg:block">
-          <span data-rail-progress className="absolute inset-0 origin-left bg-ink" />
+      <div className="wrap mt-8 flex items-center gap-6">
+        <span className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+          <span className="absolute inset-y-0 left-0 w-1/4 rounded-full bg-ink transition-transform duration-150" style={{ transform: `translateX(${progress * 300}%)` }} />
         </span>
-        <p className="text-sm text-muted">Demonstraciniai pavyzdžiai su iliustracinėmis nuotraukomis.</p>
+        <div className="flex gap-2 sm:hidden">
+          <button type="button" onClick={() => scrollByCard(-1)} disabled={edges.start} aria-label="Ankstesni projektai" className={arrowBtn}>
+            <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => scrollByCard(1)} disabled={edges.end} aria-label="Kiti projektai" className={arrowBtn}>
+            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
+      <p className="wrap mt-4 text-sm text-muted">Demonstraciniai pavyzdžiai su iliustracinėmis nuotraukomis.</p>
     </section>
   )
 }
