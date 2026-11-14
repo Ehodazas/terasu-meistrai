@@ -126,7 +126,7 @@ function Hero() {
               </span>
               <span className="block overflow-hidden pb-[0.06em]">
                 <span data-hero-line className="block">
-                  norisi <em className="font-normal not-italic text-wood">būti.</em>
+                  norisi <em className="font-normal not-italic text-wood-light">būti.</em>
                 </span>
               </span>
             </h1>
