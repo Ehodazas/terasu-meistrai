@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
+
+// Puslapiai iš anksto sugeneruoti į HTML – JavaScript jį tik „pažadina“ (hydrate).
+// Dev režime HTML tuščias, todėl tada atvaizduojama įprastai.
+if (root.hasChildNodes()) hydrateRoot(root, app)
+else createRoot(root).render(app)

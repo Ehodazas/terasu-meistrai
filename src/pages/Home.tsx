@@ -17,6 +17,7 @@ import { getProject, projects } from '../data/projects'
 import { seo } from '../data/seo'
 import { services } from '../data/services'
 import { site } from '../data/site'
+import { useMediaQuery } from '../lib/browser'
 import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from '../lib/motion'
 
 export default function Home() {
@@ -50,7 +51,11 @@ const SLIDE_MS = 6500
 function Hero() {
   const ref = useRef<HTMLElement>(null)
   const [active, setActive] = useState(0)
-  const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  // Esant „sumažinti judesį“ skaidrės nesikeičia pačios, kol naudotojas nepaleidžia
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+  const [userPlaying, setUserPlaying] = useState<boolean | null>(null)
+  const playing = userPlaying ?? !reducedMotion
+  const setPlaying = (fn: (p: boolean) => boolean) => setUserPlaying(fn(playing))
   const next = useCallback(() => setActive((a) => (a + 1) % slides.length), [])
 
   useEffect(() => {

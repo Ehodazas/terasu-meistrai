@@ -3,25 +3,20 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { navigation, PLANNER_LINK, QUOTE_LINK } from '../data/content'
 import { site } from '../data/site'
+import { useScrolledPast } from '../lib/browser'
 import { buttonClass } from './buttonStyles'
 import { Logo } from './Logo'
 
 export function Header() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
-  const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
+  const scrolled = useScrolledPast(24)
   // Meniu laikomas atidarytu tik tame puslapyje, kuriame buvo atidarytas – pakeitus puslapį jis užsidaro
   const [openPath, setOpenPath] = useState<string | null>(null)
   const open = openPath === pathname
   const setOpen = useCallback((v: boolean) => setOpenPath(v ? pathname : null), [pathname])
   const headerRef = useRef<HTMLElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const close = useCallback(
     (returnFocus = true) => {

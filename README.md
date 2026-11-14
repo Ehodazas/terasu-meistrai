@@ -146,6 +146,10 @@ GitHub Pages, o `404.html` naudojamas nežinomiems adresams.
 
 ## 8. SEO
 
+- **Puslapiai iš anksto sugeneruoti (SSG):** `npm run build` kiekvieną maršrutą atvaizduoja į pilną HTML
+  (`src/entry-server.tsx`, `scripts/prerender.mjs`). Turinys matomas ir be JavaScript – paieškos sistemoms,
+  AI įrankiams ir nuorodų peržiūroms. Naršyklėje React šį HTML tik „pažadina“ (hydrate). Kode, kuris vykdomas
+  atvaizduojant, nenaudokite `window` ar `document` – tik `useEffect` viduje arba per `src/lib/browser.ts`.
 - Unikalūs `<title>`, `meta description`, canonical ir Open Graph – `src/data/seo.ts`, statiškai įrašomi į kiekvieno
   maršruto HTML build metu ir atnaujinami naršant.
 - `sitemap.xml` ir `robots.txt` generuojami automatiškai (`vite.config.ts`).
