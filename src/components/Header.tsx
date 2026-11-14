@@ -1,6 +1,7 @@
+import { ArrowRight, Clock, Mail, Phone } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { navigation, QUOTE_LINK } from '../data/content'
+import { navigation, PLANNER_LINK, QUOTE_LINK } from '../data/content'
 import { site } from '../data/site'
 import { buttonClass } from './buttonStyles'
 import { Logo } from './Logo'
@@ -22,18 +23,20 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const close = useCallback((returnFocus = true) => {
-    setOpen(false)
-    if (returnFocus) toggleRef.current?.focus()
-  }, [setOpen])
+  const close = useCallback(
+    (returnFocus = true) => {
+      setOpen(false)
+      if (returnFocus) toggleRef.current?.focus()
+    },
+    [setOpen],
+  )
 
   // Mobilus meniu: užrakinamas slinkimas, Escape uždaro, fokusas lieka meniu viduje
   useEffect(() => {
     if (!open) return
     const { overflow } = document.body.style
     document.body.style.overflow = 'hidden'
-    const panelLinks = headerRef.current?.querySelectorAll<HTMLElement>('#mobile-menu a')
-    panelLinks?.[0]?.focus()
+    headerRef.current?.querySelector<HTMLElement>('#mobile-menu a')?.focus()
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
@@ -63,79 +66,129 @@ export function Header() {
   }, [open, close])
 
   const transparent = isHome && !scrolled && !open
+  // Nuslinkus antraštė tampa kompaktiška „plaukiojančia“ juosta
+  const compact = scrolled && !open
+
+  const barStyle = compact
+    ? 'max-w-[1320px] rounded-full border border-ink/[0.07] bg-paper/85 text-ink shadow-[0_12px_40px_-14px_rgba(37,41,35,0.28)] backdrop-blur-md'
+    : transparent
+      ? 'border-b border-white/15 bg-transparent text-white'
+      : 'border-b border-line bg-paper text-ink'
 
   return (
-    <header
-      ref={headerRef}
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-500 ${
-        transparent
-          ? 'border-b border-white/15 bg-transparent text-white'
-          : 'border-b border-line bg-paper/[0.97] text-ink'
-      }`}
-    >
-      <div className="wrap flex h-[72px] items-center justify-between gap-6 lg:h-[84px]">
-        <Link to="/" aria-label={`${site.name} – pagrindinis puslapis`} className="relative z-10 -m-2 p-2">
-          <Logo inverted={transparent} />
-        </Link>
-
-        <nav aria-label="Pagrindinė navigacija" className="hidden xl:block">
-          <ul className="flex items-center gap-1 xl:gap-2">
-            {navigation.slice(1).map((item) => (
-              <li key={item.to}>
-                <NavLink
-                  to={item.to}
-                  className={({ isActive }) =>
-                    `relative inline-flex min-h-11 items-center whitespace-nowrap px-3 text-[0.9375rem] transition-opacity duration-300 after:absolute after:inset-x-3 after:bottom-2 after:h-px after:origin-left after:bg-current after:transition-transform after:duration-500 ${
-                      isActive ? 'font-medium after:scale-x-100' : 'opacity-80 after:scale-x-0 hover:opacity-100 hover:after:scale-x-100'
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              </li>
-            ))}
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
+      {/* Viršutinė informacinė juosta (nuo planšetės) */}
+      <div
+        inert={compact}
+        className={`relative z-10 hidden overflow-hidden transition-[height,opacity] duration-500 ease-out-soft lg:block ${
+          compact ? 'h-0 opacity-0' : 'h-10 opacity-100'
+        } ${transparent ? 'border-b border-white/10 text-white/80' : 'bg-ink text-paper/70'}`}
+      >
+        <div className="wrap flex h-10 items-center justify-between gap-6 text-[0.8125rem]">
+          <ul className="flex items-center gap-6">
+            <li>
+              <a href={site.phoneHref} className="inline-flex items-center gap-2 transition-colors hover:text-wood">
+                <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                {site.phone}
+              </a>
+            </li>
+            <li>
+              <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-wood">
+                <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                {site.email}
+              </a>
+            </li>
+            <li className="hidden items-center gap-2 xl:inline-flex">
+              <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+              {site.hours[0].days} {site.hours[0].time}
+            </li>
           </ul>
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <span className="hidden sm:block">
-            <Link to={QUOTE_LINK} className={`${buttonClass(transparent ? 'wood' : 'primary')} !min-h-11`}>
-              Gauti pasiūlymą
-            </Link>
-          </span>
-          <button
-            ref={toggleRef}
-            type="button"
-            className="relative z-10 -mr-2 inline-flex h-11 w-11 items-center justify-center xl:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? 'Uždaryti meniu' : 'Atidaryti meniu'}
-            onClick={() => setOpen(!open)}
-          >
-            <span className="relative block h-3.5 w-6" aria-hidden="true">
-              <span
-                className={`absolute left-0 h-[1.5px] w-6 bg-current transition-transform duration-300 ${
-                  open ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'
-                }`}
-              />
-              <span
-                className={`absolute bottom-0 left-0 h-[1.5px] bg-current transition-all duration-300 ${
-                  open ? 'bottom-1/2 w-6 translate-y-1/2 -rotate-45' : 'w-4'
-                }`}
-              />
-            </span>
-          </button>
+          <Link to={PLANNER_LINK} className="group inline-flex items-center gap-2 font-medium transition-colors hover:text-wood">
+            Terasos planuoklė – užklausa per 2 minutes
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
         </div>
       </div>
 
-      {/* Mobilus meniu */}
+      <div className={`relative z-10 transition-[padding] duration-500 ease-out-soft ${compact ? 'px-3 pt-3 sm:px-5' : ''}`}>
+        <div className={`mx-auto transition-[background-color,border-color,color,box-shadow] duration-500 ease-out-soft ${barStyle}`}>
+          <div
+            className={`flex items-center justify-between gap-6 ${
+              compact ? 'h-[60px] pl-5 pr-2 sm:pl-6' : 'wrap h-[72px] lg:h-[84px]'
+            }`}
+          >
+            <Link to="/" aria-label={`${site.name} – pagrindinis puslapis`} className="relative -m-2 p-2">
+              <Logo inverted={transparent} />
+            </Link>
+
+            <nav aria-label="Pagrindinė navigacija" className="hidden xl:block">
+              <ul className="flex items-center gap-0.5">
+                {navigation.slice(1).map((item) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      className={({ isActive }) =>
+                        `inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-3.5 text-[0.9375rem] transition-colors duration-300 ${
+                          isActive
+                            ? transparent
+                              ? 'bg-white/15 font-medium text-white'
+                              : 'bg-ink/[0.07] font-medium text-ink'
+                            : transparent
+                              ? 'text-white/85 hover:bg-white/10 hover:text-white'
+                              : 'text-ink/75 hover:bg-ink/[0.05] hover:text-ink'
+                        }`
+                      }
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:block">
+                <Link to={QUOTE_LINK} className={`${buttonClass(transparent ? 'wood' : 'primary')} !min-h-11 !px-5`}>
+                  Gauti pasiūlymą
+                </Link>
+              </span>
+              <button
+                ref={toggleRef}
+                type="button"
+                className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors xl:hidden ${
+                  transparent ? 'hover:bg-white/10' : 'hover:bg-ink/[0.06]'
+                }`}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                aria-label={open ? 'Uždaryti meniu' : 'Atidaryti meniu'}
+                onClick={() => setOpen(!open)}
+              >
+                <span className="relative block h-3.5 w-6" aria-hidden="true">
+                  <span
+                    className={`absolute left-0 h-[1.5px] w-6 bg-current transition-transform duration-300 ${
+                      open ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'
+                    }`}
+                  />
+                  <span
+                    className={`absolute bottom-0 left-0 h-[1.5px] bg-current transition-all duration-300 ${
+                      open ? 'bottom-1/2 w-6 translate-y-1/2 -rotate-45' : 'w-4'
+                    }`}
+                  />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobilus meniu – brolinis elementas, kad juostos backdrop-filter jo nepaveiktų */}
       <div
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Meniu"
         inert={!open}
-        className={`fixed inset-x-0 bottom-0 top-[72px] overflow-y-auto lg:top-[84px] bg-paper text-ink transition-[opacity,visibility] duration-400 xl:hidden ${
+        className={`fixed inset-0 overflow-y-auto bg-paper pt-[72px] text-ink transition-[opacity,visibility] duration-400 lg:pt-[124px] xl:hidden ${
           open ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       >
@@ -153,7 +206,7 @@ export function Header() {
                   to={item.to}
                   end={item.to === '/'}
                   className={({ isActive }) =>
-                    `flex min-h-[60px] items-center justify-between font-display text-[1.6rem] font-medium tracking-[-0.02em] ${
+                    `flex min-h-[58px] items-center justify-between font-display text-[1.55rem] font-medium tracking-[-0.02em] ${
                       isActive ? 'text-forest' : 'text-ink'
                     }`
                   }
@@ -169,11 +222,14 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <div className="mt-auto pt-10">
+          <div className="mt-auto space-y-3 pt-10">
             <Link to={QUOTE_LINK} className={`${buttonClass('primary')} w-full`}>
               Gauti pasiūlymą
             </Link>
-            <p className="mt-6 text-sm text-muted">
+            <Link to={PLANNER_LINK} className={`${buttonClass('outline')} w-full`}>
+              Terasos planuoklė
+            </Link>
+            <p className="pt-3 text-sm text-muted">
               <a href={site.phoneHref} className="text-ink">
                 {site.phone}
               </a>

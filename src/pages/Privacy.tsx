@@ -10,7 +10,7 @@ import { site } from '../data/site'
  */
 export default function Privacy() {
   return (
-    <section className="pt-[72px] lg:pt-[84px]">
+    <section className="pt-[var(--header-h)]">
       <Seo entry={seo.privacy} />
       <div className="wrap py-14 sm:py-20 lg:py-28">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">

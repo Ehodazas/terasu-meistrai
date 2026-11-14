@@ -38,13 +38,13 @@ export default function Materials() {
           {materials.map((m, i) => (
             <article key={m.slug} id={m.slug} aria-labelledby={`${m.slug}-title`} className="grid gap-8 outline-none lg:grid-cols-12 lg:gap-8">
               <div className={`lg:col-span-5 ${i % 2 ? 'lg:order-2 lg:col-start-8' : ''}`}>
-                <div className="aspect-[4/3] overflow-hidden bg-sand lg:aspect-[4/5]">
+                <div data-reveal="img" className="aspect-[4/3] overflow-hidden rounded-[var(--radius-img)] bg-sand lg:aspect-[4/5]">
                   <Img name={m.image} sizes="(min-width: 1024px) 40vw, 100vw" />
                 </div>
               </div>
               <div className={`lg:col-span-6 ${i % 2 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7'} lg:pt-4`}>
                 <p className="font-display text-sm font-semibold tabular-nums text-wood-dark">{String(i + 1).padStart(2, '0')}</p>
-                <h2 id={`${m.slug}-title`} className="mt-3 font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">
+                <h2 id={`${m.slug}-title`} data-split className="mt-3 font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-[2.6rem]">
                   {m.name}
                 </h2>
                 <p className="mt-2 text-lg text-ink-2">{m.lead}</p>

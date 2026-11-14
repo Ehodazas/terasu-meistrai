@@ -1,6 +1,7 @@
 import { Check } from 'lucide-react'
 import { ButtonLink, TextLink } from '../components/Button'
 import { CtaBand } from '../components/CtaBand'
+import { Faq } from '../components/Faq'
 import { Img } from '../components/Img'
 import { PageHero } from '../components/PageHero'
 import { Seo } from '../components/Seo'
@@ -46,13 +47,13 @@ export default function Services() {
             >
               <div className="wrap grid gap-10 lg:grid-cols-12 lg:gap-8">
                 <div className={`lg:col-span-6 ${reverse ? 'lg:order-2 lg:col-start-7' : ''}`}>
-                  <div className="aspect-[4/3] overflow-hidden bg-sand lg:sticky lg:top-28 lg:aspect-[5/6]">
+                  <div data-reveal="img" className="aspect-[4/3] overflow-hidden rounded-[var(--radius-img)] bg-sand lg:sticky lg:top-28 lg:aspect-[5/6]">
                     <Img name={s.image} sizes="(min-width: 1024px) 50vw, 100vw" />
                   </div>
                 </div>
                 <div className={`lg:col-span-5 ${reverse ? 'lg:order-1' : 'lg:col-start-8'} lg:py-6`}>
                   <p className="font-display text-sm font-semibold tabular-nums text-wood-dark">{s.number}</p>
-                  <h2 id={`${s.slug}-title`} className="mt-3 font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-[2.5rem]">
+                  <h2 id={`${s.slug}-title`} data-split className="mt-3 font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-[2.5rem]">
                     {s.title}
                   </h2>
                   <div className="mt-6 space-y-4 leading-[1.75] text-ink-2">
@@ -100,6 +101,20 @@ export default function Services() {
           )
         })}
       </div>
+
+      <section aria-labelledby="services-faq" className="wrap py-20 sm:py-28">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-4">
+            <p data-reveal className="eyebrow">DUK</p>
+            <h2 id="services-faq" data-split className="h-section mt-5">
+              Klausimai apie darbus
+            </h2>
+          </div>
+          <div className="lg:col-span-7 lg:col-start-6">
+            <Faq />
+          </div>
+        </div>
+      </section>
 
       <CtaBand
         title="Nežinote, nuo ko pradėti?"

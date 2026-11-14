@@ -28,7 +28,7 @@ export function PageHero({ eyebrow, title, lead, image, imageClass = 'aspect-[4/
   )
 
   return (
-    <section ref={ref} className="pt-[72px] lg:pt-[84px]">
+    <section ref={ref} className="pt-[var(--header-h)]">
       <div className="wrap pb-12 pt-14 sm:pt-20 lg:pb-16 lg:pt-28">
         <p data-enter className="eyebrow">
           {eyebrow}
@@ -47,7 +47,7 @@ export function PageHero({ eyebrow, title, lead, image, imageClass = 'aspect-[4/
       </div>
       {image && (
         <div className="wrap">
-          <div data-enter-img className={`overflow-hidden bg-sand ${imageClass}`}>
+          <div data-enter-img className={`overflow-hidden rounded-[var(--radius-img)] bg-sand ${imageClass}`}>
             <Img name={image} priority sizes="(min-width: 1360px) 1360px, 100vw" />
           </div>
         </div>

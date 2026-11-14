@@ -10,7 +10,7 @@ export const variants: Record<Variant, string> = {
 }
 
 export const base =
-  'group/btn inline-flex min-h-12 whitespace-nowrap items-center justify-center gap-2.5 rounded-[2px] px-6 text-[0.9375rem] font-medium tracking-[-0.005em] transition-colors duration-300 focus-visible:outline-offset-4'
+  'group/btn inline-flex min-h-12 whitespace-nowrap items-center justify-center gap-2.5 rounded-full px-7 text-[0.9375rem] font-medium tracking-[-0.005em] transition-colors duration-300 focus-visible:outline-offset-4'
 
 
 export const buttonClass = (variant: Variant = 'primary') => `${base} ${variants[variant]}`

@@ -3,6 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { ScrollTrigger } from '../lib/motion'
 import { Footer } from './Footer'
 import { Header } from './Header'
+import { MobileActionBar } from './MobileActionBar'
+import { PageReveal } from './PageReveal'
 
 /** Puslapio keitimas: slenka į viršų arba į #žymą; atnaujina ScrollTrigger padėtis. */
 function ScrollManager() {
@@ -51,11 +53,13 @@ function PageLoading() {
 }
 
 export function Layout() {
+  const { pathname } = useLocation()
+  const pageRef = useRef<HTMLDivElement>(null)
   return (
     <>
       <a
         href="#turinys"
-        className="fixed left-4 top-3 z-[60] -translate-y-24 bg-ink px-4 py-3 text-sm font-medium text-paper transition-transform focus:translate-y-0"
+        className="fixed left-4 top-3 z-[60] -translate-y-24 rounded-full bg-ink px-5 py-3 text-sm font-medium text-paper transition-transform focus:translate-y-0"
       >
         Pereiti prie turinio
       </a>
@@ -63,10 +67,14 @@ export function Layout() {
       <Header />
       <main id="turinys" tabIndex={-1} className="outline-none">
         <Suspense fallback={<PageLoading />}>
-          <Outlet />
+          <div ref={pageRef} key={pathname} className="page-in">
+            <Outlet />
+          </div>
+          <PageReveal scope={pageRef} pageKey={pathname} />
         </Suspense>
       </main>
       <Footer />
+      <MobileActionBar />
     </>
   )
 }

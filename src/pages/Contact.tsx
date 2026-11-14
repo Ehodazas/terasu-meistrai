@@ -1,17 +1,20 @@
-import { Clock, Mail, MapPin, Phone } from 'lucide-react'
-import { useSearchParams } from 'react-router-dom'
+import { ArrowRight, Check, Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { PLANNER_LINK } from '../data/content'
 import { PageHero } from '../components/PageHero'
 import { PlaceholderTag } from '../components/PlaceholderTag'
 import { QuoteForm } from '../components/QuoteForm'
 import { Seo } from '../components/Seo'
 import { seo } from '../data/seo'
 import { site } from '../data/site'
-import type { TerraceType } from '../lib/validation'
+import type { QuoteValues, TerraceType } from '../lib/validation'
 
 export default function Contact() {
   const [params] = useSearchParams()
   const t = params.get('tipas')
   const defaultType: TerraceType | undefined = t === 'medine' || t === 'wpc' ? t : undefined
+  // Duomenys, perduoti iš terasos planuoklės
+  const planner = (useLocation().state as { planner?: Partial<QuoteValues> } | null)?.planner
 
   return (
     <>
@@ -82,8 +85,19 @@ export default function Contact() {
             <p className="mt-3 max-w-xl leading-relaxed text-ink-2">
               Atsakysime ir suderinsime apžiūros laiką. Pasiūlymą parengsime įvertinę vietą ir jūsų pageidavimus.
             </p>
-            <div className="mt-8 border border-line">
-              <QuoteForm key={defaultType ?? 'none'} defaultType={defaultType} />
+            {planner ? (
+              <p className="mt-6 flex items-center gap-3 rounded-2xl bg-forest/[0.07] px-4 py-3 text-sm text-forest">
+                <Check className="h-4 w-4 shrink-0" aria-hidden="true" />
+                Planuoklės atsakymai perkelti į formą – patikrinkite ir įrašykite kontaktus.
+              </p>
+            ) : (
+              <Link to={PLANNER_LINK} className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-forest">
+                <span className="link-underline">Nežinote, ką rašyti? Užpildykite terasos planuoklę</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+            )}
+            <div className="mt-6 rounded-[var(--radius-card)] border border-line">
+              <QuoteForm key={(planner ? 'p' : '') + (defaultType ?? 'none')} defaultType={defaultType} initial={planner} />
             </div>
           </div>
         </div>

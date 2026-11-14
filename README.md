@@ -33,6 +33,8 @@ src/
     services.ts      paslaugos
     materials.ts     medžiagos ir lyginamoji lentelė
     projects.ts      DEMONSTRACINIAI projektai (pažymėti DEMO_PROJECTS / demo: true)
+    faq.ts           dažnai užduodami klausimai (DUK)
+    articles.ts      patarimų straipsniai (/patarimai)
     content.ts       navigacija, darbų eigos žingsniai
     images.ts        nuotraukų registras (matmenys, alt tekstai lietuviškai, šaltinis)
     seo.ts           puslapių pavadinimai ir aprašymai
@@ -43,7 +45,24 @@ vite.config.ts       build: statinės SEO žymos kiekvienam puslapiui, sitemap.x
 ```
 
 Maršrutai: `/`, `/paslaugos`, `/terasu-tipai`, `/atlikti-darbai`, `/atlikti-darbai/:projektas`, `/apie-mus`,
-`/kontaktai`, `/privatumo-politika`, kiti – 404 puslapis.
+`/patarimai`, `/patarimai/:straipsnis`, `/terasos-planuokle`, `/kontaktai`, `/privatumo-politika`, kiti – 404 puslapis.
+
+### Funkcijos
+
+- **Terasos planuoklė** (`src/pages/Planner.tsx`) – 5 žingsnių klausimynas (darbai, medžiaga, plotas ir aukštis,
+  papildomi elementai, laikas). Pabaigoje atsakymai perkeliami į užklausos formą kontaktų puslapyje. Kainos
+  neskaičiuoja.
+- **DUK** – `src/data/faq.ts`, rodoma pagrindiniame ir paslaugų puslapiuose (su FAQPage struktūriniais duomenimis).
+- **Patarimai** – straipsniai `src/data/articles.ts`; nauji automatiškai patenka į sitemap.
+- **Nuotraukų peržiūra** projektų puslapiuose (rodyklės, Escape, braukimas).
+- **Mobili veiksmų juosta** (Skambinti / Gauti pasiūlymą) telefonuose.
+
+### Animacijos
+
+GSAP (`src/components/PageReveal.tsx`): elementams pridėkite `data-reveal` (iškyla), `data-reveal="img"`
+(nuotrauka atsiveria), `data-split` (antraštės žodžiai iškyla po vieną) arba `data-parallax`. Pagrindiniame
+puslapyje – skaidrių hero, bėganti juosta ir kompiuteryje prisegama horizontali projektų galerija. Pasirinkus
+„sumažinti judesį“ animacijos išjungiamos.
 
 ## 3. Įmonės informacijos keitimas
 

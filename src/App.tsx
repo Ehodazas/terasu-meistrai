@@ -12,6 +12,9 @@ const About = lazy(() => import('./pages/About'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const Advice = lazy(() => import('./pages/Advice'))
+const AdviceArticle = lazy(() => import('./pages/AdviceArticle'))
+const Planner = lazy(() => import('./pages/Planner'))
 
 // basename leidžia talpinti svetainę pakatalogyje (pvz., GitHub Pages /repo/)
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
@@ -26,6 +29,9 @@ export default function App() {
           <Route path="terasu-tipai" element={<Materials />} />
           <Route path="atlikti-darbai" element={<Projects />} />
           <Route path="atlikti-darbai/:slug" element={<ProjectDetail />} />
+          <Route path="patarimai" element={<Advice />} />
+          <Route path="patarimai/:slug" element={<AdviceArticle />} />
+          <Route path="terasos-planuokle" element={<Planner />} />
           <Route path="apie-mus" element={<About />} />
           <Route path="kontaktai" element={<Contact />} />
           <Route path="privatumo-politika" element={<Privacy />} />

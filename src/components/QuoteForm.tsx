@@ -31,10 +31,10 @@ const typeOptions: { value: TerraceType; label: string; hint: string }[] = [
 
 const fieldOrder: (keyof QuoteValues)[] = ['name', 'phone', 'email', 'city', 'type', 'area', 'message', 'consent']
 
-export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
+export function QuoteForm({ defaultType, initial }: { defaultType?: TerraceType; initial?: Partial<QuoteValues> }) {
   const uid = useId()
   const id = (k: string) => `${uid}-${k}`
-  const [values, setValues] = useState<QuoteValues>({ ...emptyQuote, type: defaultType ?? '' })
+  const [values, setValues] = useState<QuoteValues>({ ...emptyQuote, type: defaultType ?? '', ...initial })
   const [errors, setErrors] = useState<QuoteErrors>({})
   const [touched, setTouched] = useState<Partial<Record<keyof QuoteValues, boolean>>>({})
   const [status, setStatus] = useState<Status>('idle')
@@ -121,7 +121,7 @@ export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
 
   if (status === 'success') {
     return (
-      <div ref={statusRef} tabIndex={-1} role="status" className="border border-forest/25 bg-white p-8 outline-none sm:p-10">
+      <div ref={statusRef} tabIndex={-1} role="status" className="rounded-[var(--radius-card)] border border-forest/25 bg-white p-8 outline-none sm:p-10">
         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-forest text-paper">
           <Check className="h-5 w-5" aria-hidden="true" />
         </span>
@@ -141,7 +141,7 @@ export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
   }
 
   return (
-    <form ref={formRef} noValidate onSubmit={onSubmit} className="relative bg-white p-6 sm:p-9" aria-describedby={id('req')}>
+    <form ref={formRef} noValidate onSubmit={onSubmit} className="relative rounded-[var(--radius-card)] bg-white p-6 sm:p-9" aria-describedby={id('req')}>
       {!ENDPOINT && (
         <div className="mb-7 flex gap-3 border-l-2 border-wood bg-paper-2 px-4 py-3 text-sm leading-relaxed text-ink-2">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-wood-dark" aria-hidden="true" />
@@ -238,7 +238,7 @@ export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
               return (
                 <label
                   key={o.value}
-                  className={`relative flex min-h-[64px] cursor-pointer flex-col justify-center border px-4 py-3 transition-colors duration-200 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-wood ${
+                  className={`relative flex min-h-[64px] cursor-pointer flex-col rounded-xl justify-center border px-4 py-3 transition-colors duration-200 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-wood ${
                     checked ? 'border-forest bg-forest/[0.06]' : err('type') ? 'border-error/60' : 'border-line hover:border-ink/40'
                   }`}
                 >
@@ -385,7 +385,7 @@ export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-[2px] bg-forest px-7 font-medium text-paper transition-colors duration-300 hover:bg-forest-dark disabled:cursor-wait disabled:opacity-75 sm:w-auto"
+        className="mt-8 inline-flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-forest px-7 font-medium text-paper transition-colors duration-300 hover:bg-forest-dark disabled:cursor-wait disabled:opacity-75 sm:w-auto"
       >
         {status === 'submitting' ? (
           <>
@@ -401,7 +401,7 @@ export function QuoteForm({ defaultType }: { defaultType?: TerraceType }) {
 }
 
 function inputClass(invalid: boolean) {
-  return `block min-h-12 w-full rounded-[2px] border bg-paper/60 px-3.5 text-base text-ink placeholder:text-muted/70 transition-colors duration-200 focus:bg-white focus:outline-2 focus:outline-offset-0 ${
+  return `block min-h-12 w-full rounded-xl border bg-paper/60 px-3.5 text-base text-ink placeholder:text-muted/70 transition-colors duration-200 focus:bg-white focus:outline-2 focus:outline-offset-0 ${
     invalid ? 'border-error focus:outline-error' : 'border-line hover:border-ink/35 focus:border-forest focus:outline-forest'
   }`
 }

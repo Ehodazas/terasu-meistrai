@@ -11,7 +11,7 @@ const entry = {
 
 export default function NotFound() {
   return (
-    <section className="pt-[72px] lg:pt-[84px]">
+    <section className="pt-[var(--header-h)]">
       <Seo entry={entry} noindex />
       <div className="wrap grid min-h-[70svh] gap-12 py-20 lg:grid-cols-12 lg:items-center lg:gap-8">
         <div className="lg:col-span-7">

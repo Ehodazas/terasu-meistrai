@@ -1,8 +1,9 @@
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useRef } from 'react'
+import { ArrowLeft, ArrowRight, Expand } from 'lucide-react'
+import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ButtonLink } from '../components/Button'
 import { Img } from '../components/Img'
+import { Lightbox } from '../components/Lightbox'
 import { Seo } from '../components/Seo'
 import { projects } from '../data/projects'
 import { projectSeo } from '../data/seo'
@@ -13,6 +14,7 @@ export default function ProjectDetail() {
   const { slug = '' } = useParams()
   const index = projects.findIndex((p) => p.slug === slug)
   const ref = useRef<HTMLElement>(null)
+  const [lightbox, setLightbox] = useState<number | null>(null)
 
   useGSAP(
     () => {
@@ -34,7 +36,7 @@ export default function ProjectDetail() {
   const quoteType = project.tags.includes('wpc') ? 'wpc' : 'medine'
 
   return (
-    <article ref={ref} className="pt-[72px] lg:pt-[84px]">
+    <article ref={ref} className="pt-[var(--header-h)]">
       <Seo entry={projectSeo(project.slug)!} />
 
       <div className="wrap pb-10 pt-10 sm:pt-14 lg:pt-20">
@@ -74,9 +76,18 @@ export default function ProjectDetail() {
       </div>
 
       <div className="wrap">
-        <div data-enter className="aspect-[4/3] overflow-hidden bg-sand sm:aspect-[16/9]">
-          <Img name={main} priority sizes="(min-width: 1360px) 1360px, 100vw" />
-        </div>
+        <button
+          type="button"
+          data-enter
+          onClick={() => setLightbox(0)}
+          aria-label="Padidinti nuotrauką"
+          className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-[var(--radius-img)] bg-sand sm:aspect-[16/9]"
+        >
+          <span className="img-zoom block h-full w-full">
+            <Img name={main} priority sizes="(min-width: 1360px) 1360px, 100vw" />
+          </span>
+          <ZoomBadge />
+        </button>
       </div>
 
       <div className="wrap grid gap-12 py-16 sm:py-20 lg:grid-cols-12 lg:gap-8 lg:py-24">
@@ -124,13 +135,20 @@ export default function ProjectDetail() {
         <section aria-label="Daugiau nuotraukų" className="wrap pb-16 sm:pb-24">
           <ul className={`grid gap-4 sm:gap-6 ${rest.length === 1 ? '' : 'sm:grid-cols-2'}`}>
             {rest.map((img, i) => (
-              <li
-                key={img}
-                className={`overflow-hidden bg-sand ${
-                  rest.length === 3 && i === 0 ? 'aspect-[4/3] sm:col-span-2 sm:aspect-[16/8]' : 'aspect-[4/3]'
-                }`}
-              >
-                <Img name={img} sizes={rest.length === 1 ? '100vw' : '(min-width: 640px) 50vw, 100vw'} />
+              <li key={img} data-reveal className={rest.length === 3 && i === 0 ? 'sm:col-span-2' : ''}>
+                <button
+                  type="button"
+                  onClick={() => setLightbox(i + 1)}
+                  aria-label="Padidinti nuotrauką"
+                  className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-[var(--radius-img)] bg-sand ${
+                    rest.length === 3 && i === 0 ? 'aspect-[4/3] sm:aspect-[16/8]' : 'aspect-[4/3]'
+                  }`}
+                >
+                  <span className="img-zoom block h-full w-full">
+                    <Img name={img} sizes={rest.length === 1 ? '100vw' : '(min-width: 640px) 50vw, 100vw'} />
+                  </span>
+                  <ZoomBadge />
+                </button>
               </li>
             ))}
           </ul>
@@ -155,6 +173,19 @@ export default function ProjectDetail() {
           </Link>
         </div>
       </nav>
+      <Lightbox items={project.images} index={lightbox} onChange={setLightbox} />
     </article>
+  )
+}
+
+function ZoomBadge() {
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-paper/90 px-4 py-2 text-sm font-medium text-ink opacity-0 backdrop-blur transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+    >
+      <Expand className="h-4 w-4" />
+      Padidinti
+    </span>
   )
 }

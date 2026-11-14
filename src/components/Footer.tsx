@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { navigation, QUOTE_LINK } from '../data/content'
+import { navigation, PLANNER_LINK, QUOTE_LINK } from '../data/content'
 import { services } from '../data/services'
 import { site } from '../data/site'
 import { Logo } from './Logo'
@@ -10,7 +10,7 @@ const year = new Date().getFullYear()
 export function Footer() {
   return (
     <footer className="bg-ink text-paper/75">
-      <div className="wrap pb-10 pt-16 lg:pt-24">
+      <div className="wrap pb-28 pt-16 md:pb-10 lg:pt-24">
         <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-3">
             <Logo inverted />
@@ -23,6 +23,12 @@ export function Footer() {
               className="mt-8 inline-flex min-h-11 items-center border-b border-wood pb-1 font-display font-medium text-paper transition-colors hover:text-wood"
             >
               Gauti pasiūlymą
+            </Link>
+            <Link
+              to={PLANNER_LINK}
+              className="ml-6 mt-8 inline-flex min-h-11 items-center border-b border-white/25 pb-1 font-display font-medium text-paper/80 transition-colors hover:text-wood"
+            >
+              Terasos planuoklė
             </Link>
           </div>
 

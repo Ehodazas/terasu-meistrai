@@ -112,7 +112,7 @@ export const services: Service[] = [
       'Pasenusi terasa įsigytame name',
       'Esamos terasos išplėtimas',
     ],
-    image: 'sanding-detail',
+    image: 'dark-timber-deck',
   },
   {
     slug: 'terasu-laiptai-ir-turekliai',
@@ -137,5 +137,29 @@ export const services: Service[] = [
       'Kelių lygių terasos',
     ],
     image: 'stairs-white',
+  },
+  {
+    slug: 'terasu-prieziura',
+    nav: 'Priežiūra',
+    number: '06',
+    title: 'Terasų priežiūra ir apsauga',
+    short: 'Sezoninis valymas, aliejavimas ir smulkūs remontai, kad terasa ilgiau išliktų graži.',
+    description: [
+      'Net ir geriausiai įrengta terasa ilgiau tarnauja, kai yra reguliariai prižiūrima. Galime perimti šį darbą: išvalyti paviršių ir tarpus tarp lentų, patikrinti tvirtinimą, pakeisti pažeistas lentas ir apdoroti medieną apsauginiu aliejumi.',
+      'WPC terasoms atliekame gilesnį valymą pagal gamintojo rekomendacijas – jų aliejuoti nereikia, tačiau reguliarus valymas būtinas.',
+    ],
+    benefits: [
+      'Valymas tinkamomis priemonėmis',
+      'Tvirtinimo ir lentų būklės patikra',
+      'Aliejavimas ar dažyvės atnaujinimas',
+      'Smulkūs remontai vietoje',
+    ],
+    applications: [
+      'Kasmetinė priežiūra pavasarį',
+      'Terasos paruošimas sezonui',
+      'Papilkėjusios medienos atgaivinimas',
+      'Terasos prie nuomojamų sodybų',
+    ],
+    image: 'sanding-detail',
   },
 ]

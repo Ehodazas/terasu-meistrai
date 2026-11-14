@@ -22,10 +22,23 @@
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+:root {
+  /* Fiksuotos antraštės aukštis (mobiliuose – be viršutinės juostos) */
+  --header-h: 72px;
+  --radius-img: 14px;
+  --radius-card: 20px;
+}
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 124px;
+    --radius-img: 18px;
+  }
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 96px;
+    scroll-padding-top: 100px;
   }
   body {
     @apply bg-paper text-ink font-sans antialiased;
@@ -95,6 +108,51 @@
   .group:focus-visible .img-zoom img {
     transform: scale(1.03);
   }
+}
+
+/* Begantis užrašų juostelė */
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee[data-paused='true'] .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Hero skaidrių progreso juosta */
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Puslapio įėjimas keičiant maršrutą (tik permatomumas – nekeičia fixed elementų) */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.page-in {
+  animation: page-in 0.45s ease-out both;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes fade-in {

@@ -14,7 +14,7 @@ export function ProjectCard({ project, aspect = 'aspect-[4/3]', sizes = '(min-wi
   const H = headingLevel
   return (
     <Link to={`/atlikti-darbai/${project.slug}`} className="group block">
-      <div className={`img-zoom relative overflow-hidden bg-sand ${aspect}`}>
+      <div className={`img-zoom relative overflow-hidden rounded-[var(--radius-img)] bg-sand ${aspect}`}>
         <Img name={project.images[0]} sizes={sizes} />
         <span className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-paper/95 text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" strokeWidth={1.75} />

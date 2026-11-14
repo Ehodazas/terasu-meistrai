@@ -3,11 +3,13 @@ export const navigation = [
   { to: '/paslaugos', label: 'Paslaugos' },
   { to: '/terasu-tipai', label: 'Terasų tipai' },
   { to: '/atlikti-darbai', label: 'Atlikti darbai' },
+  { to: '/patarimai', label: 'Patarimai' },
   { to: '/apie-mus', label: 'Apie mus' },
   { to: '/kontaktai', label: 'Kontaktai' },
 ] as const
 
 export const QUOTE_LINK = '/kontaktai#uzklausa'
+export const PLANNER_LINK = '/terasos-planuokle'
 
 export const processSteps = [
   {

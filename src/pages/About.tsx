@@ -70,7 +70,7 @@ export default function About() {
           <SectionHead index="02" eyebrow="Požiūris į kokybę" title="Kokybė prasideda ten, kur jos nesimato" id="quality-title" />
           <ol className="mt-14 grid gap-px bg-line sm:mt-20 lg:grid-cols-3">
             {quality.map((q, i) => (
-              <li key={q.title} className="bg-paper-2 py-8 sm:p-8 lg:p-10">
+              <li key={q.title} data-reveal className="bg-paper-2 py-8 sm:p-8 lg:p-10">
                 <span className="font-display text-sm font-semibold tabular-nums text-wood-dark">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="mt-4 text-xl font-medium tracking-[-0.015em] sm:text-2xl">{q.title}</h3>
                 <p className="mt-4 leading-relaxed text-ink-2">{q.text}</p>
@@ -83,10 +83,10 @@ export default function About() {
       <section aria-labelledby="craft-title" className="wrap py-20 sm:py-28 lg:py-32">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
           <div className="grid grid-cols-5 gap-4 lg:col-span-6">
-            <div className="col-span-3 aspect-[3/4] overflow-hidden bg-sand">
+            <div data-reveal="img" className="col-span-3 aspect-[3/4] overflow-hidden rounded-[var(--radius-img)] bg-sand">
               <Img name="saw-detail" sizes="(min-width: 1024px) 30vw, 60vw" />
             </div>
-            <div className="col-span-2 mt-16 aspect-[3/4] overflow-hidden bg-sand">
+            <div data-reveal="img" className="col-span-2 mt-16 aspect-[3/4] overflow-hidden rounded-[var(--radius-img)] bg-sand">
               <Img name="toolbelt" sizes="(min-width: 1024px) 20vw, 40vw" />
             </div>
           </div>
@@ -157,13 +157,13 @@ export default function About() {
             <h2 id="why-title" className="h-section mt-5">
               Ko galite tikėtis dirbdami su mumis
             </h2>
-            <div className="mt-10 hidden aspect-[4/3] overflow-hidden bg-sand lg:block">
+            <div className="mt-10 hidden aspect-[4/3] overflow-hidden rounded-[var(--radius-img)] bg-sand lg:block">
               <Img name="deck-trees" sizes="40vw" />
             </div>
           </div>
           <ul className="border-t border-ink lg:col-span-6 lg:col-start-7">
             {reasons.map((r, i) => (
-              <li key={r} className="grid grid-cols-[3rem_1fr] gap-2 border-b border-line py-6 text-lg leading-relaxed">
+              <li key={r} data-reveal className="grid grid-cols-[3rem_1fr] gap-2 border-b border-line py-6 text-lg leading-relaxed">
                 <span className="pt-1 font-display text-sm font-semibold tabular-nums text-wood-dark">{String(i + 1).padStart(2, '0')}</span>
                 {r}
               </li>
