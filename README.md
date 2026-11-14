@@ -120,7 +120,7 @@ Importuokite projektą (Framework: Vite). `vercel.json` sutvarko maršrutus. Nus
 2. Settings → Pages → Source: **GitHub Actions**.
 3. (Neprivaloma) Settings → Secrets → Actions: `VITE_FORM_ENDPOINT`.
 4. Workflow `.github/workflows/deploy-pages.yml` automatiškai nustato `BASE_PATH=/<repozitorija>/`.
-   Jei naudojate savo domeną – workflow faile pakeiskite `BASE_PATH: /` ir `VITE_SITE_URL`.
+   Jei naudojate savo domeną – workflow faile pakeiskite `BASE_PATH` į `/` ir `VITE_SITE_URL` į savo adresą.
 
 Kiekvienam puslapiui build metu sukuriamas atskiras `index.html`, todėl tiesioginės nuorodos veikia ir
 GitHub Pages, o `404.html` naudojamas nežinomiems adresams.
