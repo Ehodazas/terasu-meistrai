@@ -16,8 +16,7 @@ const priorities: { value: Priority; label: string }[] = [
 /** Kiek medžiaga atitinka prioritetą (didesnis – geriau). */
 function score(slug: string, p: Priority) {
   if (p === 'visi') return 0
-  const lvl = materialFeel[slug][p].level
-  return p === 'barefoot' ? lvl : 4 - lvl
+  return materialFeel[slug][p].score
 }
 
 /**
@@ -84,16 +83,16 @@ export function MaterialCompare({ withImages = true }: { withImages?: boolean })
                     const highlighted = priority === c.key
                     return (
                       <div key={c.key}>
-                        <div className="flex items-baseline justify-between gap-3">
-                          <dt className={`text-sm ${highlighted ? 'font-semibold text-ink' : 'text-muted'}`}>{c.label}</dt>
-                          <dd className="text-right text-sm font-medium">{c.scale[f.level - 1]}</dd>
-                        </div>
-                        <div className="mt-1.5 grid grid-cols-3 gap-1" aria-hidden="true">
-                          {[1, 2, 3].map((i) => (
-                            <span key={i} className={`h-1.5 rounded-full ${i <= (c.key === "barefoot" ? f.level : 4 - f.level) ? (highlighted ? 'bg-forest' : 'bg-ink/70') : 'bg-ink/10'}`} />
-                          ))}
-                        </div>
-                        <p className="mt-1.5 text-[0.8125rem] leading-snug text-ink-2">{f.text}</p>
+                        <dt className={`text-xs uppercase tracking-[0.08em] ${highlighted ? 'font-semibold text-forest' : 'text-muted'}`}>{c.label}</dt>
+                        <dd>
+                          <div className="mt-1.5 grid grid-cols-3 gap-1" aria-hidden="true">
+                            {[1, 2, 3].map((i) => (
+                              <span key={i} className={`h-1.5 rounded-full ${i <= f.score ? (highlighted ? 'bg-forest' : 'bg-ink/70') : 'bg-ink/10'}`} />
+                            ))}
+                          </div>
+                          <p className="mt-1.5 text-sm font-medium">{c.scale[f.score - 1]}</p>
+                          <p className="mt-0.5 text-[0.8125rem] leading-snug text-ink-2">{f.text}</p>
+                        </dd>
                       </div>
                     )
                   })}
@@ -107,7 +106,7 @@ export function MaterialCompare({ withImages = true }: { withImages?: boolean })
           )
         })}
       </ul>
-      <p className="mt-4 text-sm text-muted">Kuo daugiau užpildytų brūkšnelių – tuo geriau jums. Vertinimai santykiniai. Visiškai priežiūros nereikalaujančių terasų nėra – skiriasi tik priežiūros pobūdis.</p>
+      <p className="mt-4 text-sm text-muted">Visose eilutėse daugiau užpildytų brūkšnelių reiškia geresnį rezultatą. Vertinimai santykiniai. Visiškai priežiūros nereikalaujančių terasų nėra – skiriasi tik priežiūros pobūdis.</p>
     </div>
   )
 }

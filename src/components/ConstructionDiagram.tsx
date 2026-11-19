@@ -14,8 +14,8 @@ const layers = [
 function Marker({ x, y, n }: { x: number; y: number; n: number }) {
   return (
     <g>
-      <circle cx={x} cy={y} r="15" fill="#252923" />
-      <text x={x} y={y + 5} textAnchor="middle" fontSize="15" fontWeight="700" fill="#F7F5F0" fontFamily="Manrope Variable, Manrope, sans-serif">
+      <circle cx={x} cy={y} r="21" fill="#252923" />
+      <text x={x} y={y + 7} textAnchor="middle" fontSize="21" fontWeight="700" fill="#F7F5F0" fontFamily="Manrope Variable, Manrope, sans-serif">
         {n}
       </text>
     </g>
@@ -27,10 +27,10 @@ export function ConstructionDiagram() {
   const joists = Array.from({ length: 13 }, (_, i) => 140 + i * 60)
   const piles = [200, 500, 800]
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
+    <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
       <figure className="lg:col-span-7">
-        <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-white p-3 sm:p-6">
-          <svg viewBox="0 0 1000 470" role="img" aria-labelledby="diagram-title diagram-desc" className="h-auto w-full">
+        <div className="overflow-hidden rounded-[var(--radius-card)] border border-line bg-white p-2 sm:p-4">
+          <svg viewBox="0 6 1000 464" role="img" aria-labelledby="diagram-title diagram-desc" className="h-auto w-full">
             <title id="diagram-title">Terasos konstrukcijos pjūvis</title>
             <desc id="diagram-desc">
               Schemoje matyti namo siena, terasos lentos, po jomis lagai ir sijos, atramos į gruntą, geotekstilė ant
@@ -46,7 +46,7 @@ export function ConstructionDiagram() {
             {/* Namo siena */}
             <rect x="20" y="40" width="80" height="320" fill="#d8d2c6" />
             <rect x="34" y="60" width="52" height="128" rx="3" fill="#f7f5f0" stroke="#c9bda7" />
-            <text x="60" y="30" textAnchor="middle" fontSize="15" fill="#6C6F66" fontFamily="Inter Variable, Inter, sans-serif">
+            <text x="60" y="32" textAnchor="middle" fontSize="20" fill="#6C6F66" fontFamily="Inter Variable, Inter, sans-serif">
               Namas
             </text>
 
@@ -91,7 +91,7 @@ export function ConstructionDiagram() {
             ))}
             {/* Nuolydžio rodyklė */}
             <path d="M600 128 L880 134" stroke="#252923" strokeWidth="2" markerEnd="url(#arrow-ink)" />
-            <text x="610" y="118" fontSize="15" fill="#4B4F47" fontFamily="Inter Variable, Inter, sans-serif">
+            <text x="560" y="114" fontSize="21" fill="#4B4F47" fontFamily="Inter Variable, Inter, sans-serif">
               ~1–2 % nuolydis nuo namo
             </text>
 
@@ -105,16 +105,16 @@ export function ConstructionDiagram() {
             </defs>
 
             {/* Žymekliai */}
-            <Marker x={300} y={132} n={1} />
+            <Marker x={300} y={126} n={1} />
             <line x1="300" y1="147" x2="300" y2="160" stroke="#252923" strokeWidth="2" />
-            <Marker x={960} y={190} n={2} />
-            <line x1="945" y1="192" x2="869" y2="196" stroke="#252923" strokeWidth="2" />
-            <Marker x={960} y={232} n={3} />
-            <line x1="945" y1="230" x2="905" y2="228" stroke="#252923" strokeWidth="2" />
+            <Marker x={962} y={178} n={2} />
+            <line x1="941" y1="182" x2="869" y2="194" stroke="#252923" strokeWidth="2" />
+            <Marker x={962} y={236} n={3} />
+            <line x1="941" y1="232" x2="905" y2="228" stroke="#252923" strokeWidth="2" />
             <Marker x={860} y={420} n={4} />
-            <line x1="845" y1="415" x2="812" y2="405" stroke="#252923" strokeWidth="2" />
+            <line x1="839" y1="414" x2="812" y2="405" stroke="#252923" strokeWidth="2" />
             <Marker x={640} y={420} n={5} />
-            <line x1="640" y1="405" x2="640" y2="364" stroke="#252923" strokeWidth="2" />
+            <line x1="640" y1="399" x2="640" y2="364" stroke="#252923" strokeWidth="2" />
             <Marker x={490} y={300} n={6} />
           </svg>
         </div>

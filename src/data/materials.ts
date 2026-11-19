@@ -114,38 +114,41 @@ export const comparisonRows: { label: string; values: [string, string, string, s
 ]
 
 /**
- * Palyginimas pagal tris kasdienius klausimus. level: 1–3.
- *  - care:     kiek priežiūros reikia (1 – mažai, 3 – daugiausia)
- *  - sun:      kiek įkaista saulėje (1 – mažai, 3 – labiausiai)
- *  - barefoot: kaip malonu vaikščioti basomis (1 – mažiausiai, 3 – maloniausia)
+ * Palyginimas pagal tris kasdienius klausimus.
+ * score: 1–3, kur VISADA 3 = geriausia jums (daugiau brūkšnelių – geriau):
+ *  - care:     priežiūros paprastumas (3 – paprasčiausia)
+ *  - sun:      vėsumas saulėje (3 – mažiausiai įkaista)
+ *  - barefoot: pojūtis basomis (3 – maloniausia)
  * Vertinimai santykiniai ir apibendrinti – konkretus gaminys gali skirtis.
  */
 export type FeelKey = 'care' | 'sun' | 'barefoot'
+
+/** scale – žodiniai įvertinimai nuo prasčiausio (1) iki geriausio (3). */
 export const feelCriteria: { key: FeelKey; label: string; scale: [string, string, string] }[] = [
-  { key: 'care', label: 'Priežiūra', scale: ['Mažai', 'Vidutiniškai', 'Daugiau'] },
-  { key: 'sun', label: 'Saulėje', scale: ['Mažai įkaista', 'Šyla vidutiniškai', 'Įkaista labiausiai'] },
-  { key: 'barefoot', label: 'Basomis', scale: ['Priklauso nuo oro', 'Malonu', 'Labai malonu'] },
+  { key: 'care', label: 'Priežiūros paprastumas', scale: ['Reikia daugiausia priežiūros', 'Vidutinė priežiūra', 'Paprasčiausia priežiūra'] },
+  { key: 'sun', label: 'Vėsumas saulėje', scale: ['Įkaista labiausiai', 'Šyla vidutiniškai', 'Išlieka vėsesnė'] },
+  { key: 'barefoot', label: 'Pojūtis basomis', scale: ['Priklauso nuo oro', 'Malonu', 'Labai malonu'] },
 ]
 
-export const materialFeel: Record<string, Record<FeelKey, { level: 1 | 2 | 3; text: string }>> = {
+export const materialFeel: Record<string, Record<FeelKey, { score: 1 | 2 | 3; text: string }>> = {
   'impregnuota-mediena': {
-    care: { level: 3, text: 'Valymas ir aliejavimas kas 1–2 metus' },
-    sun: { level: 1, text: 'Šviesi mediena saulėje išlieka vėsesnė' },
-    barefoot: { level: 2, text: 'Šilta ir natūrali, neprižiūrėta gali šiurkštėti' },
+    care: { score: 1, text: 'Valymas ir aliejavimas kas 1–2 metus' },
+    sun: { score: 3, text: 'Šviesi mediena mažai kaupia šilumą' },
+    barefoot: { score: 2, text: 'Šilta ir natūrali, neprižiūrėta gali šiurkštėti' },
   },
   maumedis: {
-    care: { level: 2, text: 'Valymas; aliejavimas, jei norite išlaikyti spalvą' },
-    sun: { level: 1, text: 'Mažai įkaista' },
-    barefoot: { level: 3, text: 'Tankus, malonus paviršius; pirmaisiais metais gali išsiskirti sakai' },
+    care: { score: 2, text: 'Valymas; aliejavimas, jei norite išlaikyti spalvą' },
+    sun: { score: 3, text: 'Natūrali mediena nekaista taip, kaip kompozitas' },
+    barefoot: { score: 3, text: 'Tankus, malonus paviršius; pirmaisiais metais gali išsiskirti sakai' },
   },
   termomediena: {
-    care: { level: 2, text: 'Valymas; aliejus su UV apsauga spalvai išlaikyti' },
-    sun: { level: 2, text: 'Tamsesnė mediena šyla šiek tiek labiau' },
-    barefoot: { level: 3, text: 'Lygi, šilta mediena; kraštai trapesni' },
+    care: { score: 2, text: 'Valymas; aliejus su UV apsauga spalvai išlaikyti' },
+    sun: { score: 2, text: 'Tamsesnė spalva saulėje šyla kiek labiau' },
+    barefoot: { score: 3, text: 'Lygi, šilta mediena; kraštai trapesni' },
   },
   'wpc-kompozitas': {
-    care: { level: 1, text: 'Tik reguliarus valymas, aliejuoti nereikia' },
-    sun: { level: 3, text: 'Ypač tamsios spalvos karštą dieną gerokai įkaista' },
-    barefoot: { level: 1, text: 'Be atplaišų, bet saulėkaitoje gali būti karšta' },
+    care: { score: 3, text: 'Tik reguliarus valymas, aliejuoti nereikia' },
+    sun: { score: 1, text: 'Ypač tamsios spalvos karštą dieną gerokai įkaista' },
+    barefoot: { score: 1, text: 'Be atplaišų, bet saulėkaitoje gali būti karšta' },
   },
 }

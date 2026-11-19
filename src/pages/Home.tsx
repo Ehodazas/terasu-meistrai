@@ -45,7 +45,7 @@ function Hero() {
   const p = getProject(FEATURED)!
   const situation = getSituation(p.situation)
   return (
-    <section aria-labelledby="hero-title" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink pt-28 text-white lg:h-[100svh] lg:max-h-[1000px] lg:min-h-[680px] lg:pt-0">
+    <section aria-labelledby="hero-title" className="relative flex items-center overflow-hidden bg-ink pb-10 pt-28 text-white sm:pb-14 lg:min-h-[min(86svh,820px)] lg:pb-12 lg:pt-[148px]">
       <div className="absolute inset-0">
         <Img name={p.images[0]} priority sizes="100vw" className="object-[38%_center] sm:object-center" />
       </div>
@@ -53,8 +53,8 @@ function Hero() {
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/60 to-transparent" />
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10 lg:bg-gradient-to-r lg:from-black/75 lg:via-black/40 lg:to-black/5" />
 
-      <div className="wrap relative pb-10 sm:pb-14 lg:pb-16">
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
+      <div className="wrap relative w-full">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
           <div className="lg:col-span-7">
             <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-black/35 px-4 py-1.5 text-[0.8125rem] text-white backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-wood-light" aria-hidden="true" />
@@ -140,7 +140,7 @@ function SituationExplorer() {
     <section aria-labelledby="situations-title" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap">
         <SectionHead index="01" eyebrow="Darbai pagal situaciją" title="Kokia jūsų erdvė?" id="situations-title">
-          Pasirinkite situaciją, panašiausią į jūsų – parodysime, į ką atkreipti dėmesį ir kaip panašios terasos išspręstos.
+          Pasirinkite situaciją, panašiausią į jūsų – parodysime, į ką atkreipti dėmesį ir kokie sprendimai pritaikyti panašiose erdvėse.
         </SectionHead>
 
         <div role="tablist" aria-label="Situacijos" className="no-scrollbar -mx-5 mt-12 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
@@ -188,11 +188,11 @@ function SituationExplorer() {
             </div>
           </div>
 
-          <ul className="grid gap-6 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
+          <ul className={`grid gap-6 sm:grid-cols-2 lg:col-span-8 ${list.length >= 3 ? "lg:grid-cols-3" : list.length === 2 ? "lg:grid-cols-2" : "lg:grid-cols-1"}`}>
             {list.map((p) => (
               <li key={p.slug}>
                 <Link to={`/atlikti-darbai/${p.slug}`} className="group block">
-                  <div className="img-zoom aspect-[4/3] overflow-hidden rounded-[var(--radius-img)] bg-sand lg:aspect-[4/5]">
+                  <div className={`img-zoom aspect-[4/3] overflow-hidden rounded-[var(--radius-img)] bg-sand ${list.length >= 3 ? "lg:aspect-[4/5]" : "lg:aspect-[4/3]"}`}>
                     <Img name={p.images[0]} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 50vw, 100vw" />
                   </div>
                   <h4 className="mt-4 font-display text-lg font-medium leading-snug">

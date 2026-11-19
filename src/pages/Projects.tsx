@@ -117,7 +117,7 @@ export default function Projects() {
                   </div>
                   <p className="leading-relaxed text-ink-2 lg:col-span-6 lg:col-start-7">{info.challenge}</p>
                 </div>
-                <ul className="mt-8 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className={`mt-8 grid gap-x-6 gap-y-12 sm:grid-cols-2 ${items.length === 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"}`}>
                   {items.map((p) => (
                     <li key={p.slug}>
                       <ProjectCard project={p} headingLevel="h3" />
