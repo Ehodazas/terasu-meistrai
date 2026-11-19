@@ -111,31 +111,6 @@
   }
 }
 
-/* Begantis užrašų juostelė */
-@keyframes marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-.marquee-track {
-  animation: marquee 38s linear infinite;
-}
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track,
-.marquee[data-paused='true'] .marquee-track {
-  animation-play-state: paused;
-}
-
-/* Hero skaidrių progreso juosta */
-@keyframes progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 /* Puslapio įėjimas keičiant maršrutą (tik permatomumas – nekeičia fixed elementų) */
 @keyframes page-in {
   from {
@@ -146,7 +121,7 @@
   }
 }
 .page-in {
-  animation: page-in 0.45s ease-out both;
+  animation: page-in 0.2s ease-out both;
 }
 
 .no-scrollbar {

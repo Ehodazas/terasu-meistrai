@@ -31,8 +31,9 @@ src/
   data/              VISAS turinys ir nustatymai
     site.ts          įmonės kontaktai, darbo laikas, darbo zona, svetainės URL
     services.ts      paslaugos
-    materials.ts     medžiagos ir lyginamoji lentelė
+    materials.ts     medžiagos, lyginamoji lentelė ir palyginimas pagal priežiūrą, saulę ir pojūtį basomis (materialFeel)
     projects.ts      DEMONSTRACINIAI projektai (pažymėti DEMO_PROJECTS / demo: true)
+    situations.ts    situacijos (prie namo, mažas kiemas, nuolydis, atnaujinimas) – darbų grupavimas
     faq.ts           dažnai užduodami klausimai (DUK)
     articles.ts      patarimų straipsniai (/patarimai)
     content.ts       navigacija, darbų eigos žingsniai
@@ -94,7 +95,7 @@ Socialinių tinklų paveikslėlis – `public/images/og-image.jpg` (1200×630).
 ## 5. Projektų (atliktų darbų) keitimas
 
 `src/data/projects.ts`: pakeiskite demonstracinius įrašus tikrais projektais. Kiekvienas projektas turi
-`slug` (URL dalis), `title`, `material`, `type`, `area`, `duration` (darbų trukmė), `tags` (`medines` / `wpc` / `atnaujinimas` – filtrai),
+`slug` (URL dalis), `title`, `material`, `type`, `area`, `duration` (darbų trukmė), `situation` (situacija), `solution` (trumpas sprendimo aprašymas), `tags` (`medines` / `wpc` / `atnaujinimas` – filtrai),
 aprašymą, darbų sąrašą ir nuotraukų raktus. Kai neliks demonstracinių projektų, nustatykite
 `DEMO_PROJECTS = false`, o `Project` tipe pašalinkite `demo: true` ir su juo susijusias „Pavyzdys“ /
 „Demonstracinis projektas“ žymas (`ProjectCard.tsx`, `ProjectDetail.tsx`, `Home.tsx`).

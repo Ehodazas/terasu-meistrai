@@ -42,8 +42,8 @@ export function ProjectCard({ project, aspect = 'aspect-[4/3]', sizes = '(min-wi
         ))}
       </dl>
       <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink-2">
-        <span className="text-muted">Atlikta: </span>
-        {project.scope.join(' · ')}
+        <span className="font-medium text-ink">Sprendimas: </span>
+        {project.solution}
       </p>
     </Link>
   )

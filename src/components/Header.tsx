@@ -65,9 +65,9 @@ export function Header() {
   const compact = scrolled && !open
 
   const barStyle = compact
-    ? 'max-w-[1320px] rounded-full border border-ink/[0.07] bg-paper/85 text-ink shadow-[0_12px_40px_-14px_rgba(37,41,35,0.28)] backdrop-blur-md'
+    ? 'max-w-[1320px] rounded-full border border-ink/10 bg-paper/95 text-ink shadow-[0_12px_40px_-14px_rgba(37,41,35,0.28)] backdrop-blur-md'
     : transparent
-      ? 'border-b border-white/15 bg-transparent text-white'
+      ? 'border-b border-white/20 bg-transparent text-white'
       : 'border-b border-line bg-paper text-ink'
 
   return (
@@ -77,7 +77,7 @@ export function Header() {
         inert={compact}
         className={`relative z-10 hidden overflow-hidden transition-[height,opacity] duration-500 ease-out-soft lg:block ${
           compact ? 'h-0 opacity-0' : 'h-10 opacity-100'
-        } ${transparent ? 'border-b border-white/10 text-white/80' : 'bg-ink text-paper/70'}`}
+        } ${transparent ? 'border-b border-white/20 text-white' : 'bg-ink text-paper/90'}`}
       >
         <div className="wrap flex h-10 items-center justify-between gap-6 text-[0.8125rem]">
           <ul className="flex items-center gap-6">
@@ -126,11 +126,11 @@ export function Header() {
                         `inline-flex min-h-10 items-center whitespace-nowrap rounded-full px-3.5 text-[0.9375rem] transition-colors duration-300 ${
                           isActive
                             ? transparent
-                              ? 'bg-white/15 font-medium text-white'
-                              : 'bg-ink/[0.07] font-medium text-ink'
+                              ? 'bg-white font-semibold text-ink'
+                              : 'bg-forest font-semibold text-paper'
                             : transparent
-                              ? 'text-white/85 hover:bg-white/10 hover:text-white'
-                              : 'text-ink/75 hover:bg-ink/[0.05] hover:text-ink'
+                              ? 'font-medium text-white hover:bg-white/20'
+                              : 'font-medium text-ink hover:bg-ink/[0.08]'
                         }`
                       }
                     >

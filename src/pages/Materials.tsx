@@ -1,6 +1,7 @@
 import { Minus, Plus } from 'lucide-react'
 import { ButtonLink } from '../components/Button'
 import { Img } from '../components/Img'
+import { MaterialCompare } from '../components/MaterialCompare'
 import { PageHero } from '../components/PageHero'
 import { Seo } from '../components/Seo'
 import { comparisonRows, materials } from '../data/materials'
@@ -32,6 +33,18 @@ export default function Materials() {
         image="frost-planks"
         imageClass="aspect-[16/10] sm:aspect-[16/6]"
       />
+
+      <section aria-labelledby="quick-compare" className="wrap pt-14 sm:pt-20">
+        <div className="max-w-2xl">
+          <p className="eyebrow">Greitas palyginimas</p>
+          <h2 id="quick-compare" className="h-section mt-4">
+            Priežiūra, saulė ir pojūtis basomis
+          </h2>
+        </div>
+        <div className="mt-10">
+          <MaterialCompare withImages={false} />
+        </div>
+      </section>
 
       <section aria-label="Medžiagos" className="wrap pt-16 sm:pt-24 lg:pt-32">
         <div className="space-y-20 sm:space-y-28 lg:space-y-32">

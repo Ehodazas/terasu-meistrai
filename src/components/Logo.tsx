@@ -5,10 +5,10 @@
 export function LogoMark({ className = '', inverted = false }: { className?: string; inverted?: boolean }) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" className={className}>
-      <rect width="32" height="32" rx="9" fill={inverted ? 'var(--color-paper)' : 'var(--color-forest)'} />
-      <g fill={inverted ? 'var(--color-forest)' : 'var(--color-paper)'}>
+      <rect width="32" height="32" rx="9" fill={inverted ? '#F7F5F0' : '#34483B'} />
+      <g fill={inverted ? '#34483B' : '#F7F5F0'}>
         <rect x="7.5" y="7" width="3.6" height="18" rx="1" />
-        <rect x="14.2" y="10" width="3.6" height="15" rx="1" fill="var(--color-wood)" />
+        <rect x="14.2" y="10" width="3.6" height="15" rx="1" fill="#A67C52" />
         <rect x="20.9" y="7" width="3.6" height="18" rx="1" />
       </g>
     </svg>

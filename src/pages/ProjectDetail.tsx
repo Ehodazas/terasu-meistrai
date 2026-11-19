@@ -7,7 +7,7 @@ import { Lightbox } from '../components/Lightbox'
 import { Seo } from '../components/Seo'
 import { projects } from '../data/projects'
 import { projectSeo } from '../data/seo'
-import { gsap, MOTION_OK, useGSAP } from '../lib/motion'
+import { getSituation } from '../data/situations'
 import NotFound from './NotFound'
 
 export default function ProjectDetail() {
@@ -15,17 +15,6 @@ export default function ProjectDetail() {
   const index = projects.findIndex((p) => p.slug === slug)
   const ref = useRef<HTMLElement>(null)
   const [lightbox, setLightbox] = useState<number | null>(null)
-
-  useGSAP(
-    () => {
-      if (index < 0) return
-      const mm = gsap.matchMedia()
-      mm.add(MOTION_OK, () => {
-        gsap.from('[data-enter]', { y: 12, autoAlpha: 0, duration: 0.5, ease: 'power2.out', stagger: 0.05 })
-      })
-    },
-    { scope: ref, dependencies: [slug], revertOnUpdate: true },
-  )
 
   if (index < 0) return <NotFound />
 
@@ -94,6 +83,7 @@ export default function ProjectDetail() {
         <dl className="grid grid-cols-2 gap-x-6 gap-y-6 self-start border-t border-ink pt-6 lg:col-span-4 lg:grid-cols-1">
           {[
             ['Medžiaga', project.material],
+            ['Situacija', getSituation(project.situation).label],
             ['Projekto tipas', project.type],
             ['Plotas', project.area],
             ['Darbų trukmė', project.duration],
@@ -112,6 +102,10 @@ export default function ProjectDetail() {
             {project.description.map((p) => (
               <p key={p}>{p}</p>
             ))}
+          </div>
+          <div className="mt-10 rounded-[var(--radius-card)] bg-paper-2 p-6">
+            <p className="text-sm font-semibold">Sprendimas</p>
+            <p className="mt-2 text-[1.0625rem] leading-relaxed">{project.solution}</p>
           </div>
           <h3 className="eyebrow mt-12">Atlikti darbai</h3>
           <ul className="mt-5 border-t border-line">

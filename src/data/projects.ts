@@ -1,4 +1,5 @@
 import type { ImageKey } from './images.ts'
+import type { Situation } from './situations.ts'
 
 /**
  * DEMONSTRACINIAI PROJEKTAI
@@ -20,6 +21,10 @@ export interface Project {
   area: string
   /** Apytikslė darbų trukmė objekte (demonstracinė). */
   duration: string
+  /** Situacija, pagal kurią grupuojami darbai. */
+  situation: Situation
+  /** Trumpai: koks sprendimas pritaikytas. */
+  solution: string
   tags: ProjectTag[]
   summary: string
   description: string[]
@@ -27,13 +32,6 @@ export interface Project {
   images: ImageKey[]
   demo: true
 }
-
-export const projectFilters: { value: 'visi' | ProjectTag; label: string }[] = [
-  { value: 'visi', label: 'Visi projektai' },
-  { value: 'medines', label: 'Medinės terasos' },
-  { value: 'wpc', label: 'WPC terasos' },
-  { value: 'atnaujinimas', label: 'Terasų atnaujinimas' },
-]
 
 export const projects: Project[] = [
   {
@@ -43,6 +41,8 @@ export const projects: Project[] = [
     type: 'Terasa prie modernaus namo',
     area: '≈ 70 m²',
     duration: '≈ 8 darbo dienos',
+    situation: 'prie-namo',
+    solution: 'Sraigtiniai poliai ir aliuminio lagai, terasa viename lygyje su vidaus grindimis',
     tags: ['wpc'],
     summary: 'Šviesi kompozitinė terasa, tęsianti svetainės grindų liniją į lauką.',
     description: [
@@ -60,6 +60,8 @@ export const projects: Project[] = [
     type: 'Terasa su laiptais',
     area: '≈ 55 m²',
     duration: '≈ 10 darbo dienų',
+    situation: 'nuolydis',
+    solution: 'Keli lygiai su pakopomis jungia namo išėjimą, poilsio zoną ir sodą',
     tags: ['medines'],
     summary: 'Kelių lygių terasa, sujungianti namo išėjimą, poilsio zoną ir pakeltas daržo lysves.',
     description: [
@@ -77,6 +79,8 @@ export const projects: Project[] = [
     type: 'Terasa su laiptais',
     area: '≈ 30 m²',
     duration: '≈ 6 darbo dienos',
+    situation: 'nuolydis',
+    solution: 'Plačios pakopos per visą plotį vietoj siaurų laiptų',
     tags: ['medines'],
     summary: 'Pakelta maumedžio terasa su plačiomis pakopomis, kurios atlieka ir sėdimos vietos funkciją.',
     description: [
@@ -94,6 +98,8 @@ export const projects: Project[] = [
     type: 'Terasa su pergole',
     area: '≈ 45 m²',
     duration: '≈ 9 darbo dienos',
+    situation: 'prie-namo',
+    solution: 'Pergolė ant atskirų pamatų, nepriklausoma nuo terasos lagų',
     tags: ['medines'],
     summary: 'Termomedienos terasa su medine pergole virš valgomojo zonos.',
     description: [
@@ -111,6 +117,8 @@ export const projects: Project[] = [
     type: 'Kiemo terasa',
     area: '≈ 40 m²',
     duration: '≈ 5 darbo dienos',
+    situation: 'mazas-kiemas',
+    solution: 'Įmontuotas suolas iš tos pačios sistemos, vieta augalams prie krašto',
     tags: ['wpc'],
     summary: 'Ramių pilkų tonų kompozitinė terasa su įmontuotu suolu ir vietomis augalams.',
     description: [
@@ -128,6 +136,8 @@ export const projects: Project[] = [
     type: 'Didelė lauko erdvė',
     area: '≈ 120 m²',
     duration: '≈ 3 savaitės',
+    situation: 'prie-namo',
+    solution: 'Drenažas, ilgos lentų linijos ir žalia zona dideliam plotui suskaidyti',
     tags: ['medines'],
     summary: 'Didelė medinė aikštelė prieš namą, skirta šventėms ir buvimui lauke.',
     description: [
@@ -145,6 +155,8 @@ export const projects: Project[] = [
     type: 'Nedidelė sodo terasa',
     area: '≈ 12 m²',
     duration: '≈ 2 darbo dienos',
+    situation: 'mazas-kiemas',
+    solution: 'Kelios atramos ant pamatų blokelių – veja ir šaknys beveik nepaliestos',
     tags: ['medines'],
     summary: 'Nedidelė terasa sodo gilumoje – vieta rytinei kavai ir skaitymui.',
     description: [
@@ -162,6 +174,8 @@ export const projects: Project[] = [
     type: 'Terasa prie namo',
     area: '≈ 35 m²',
     duration: '≈ 6 darbo dienos',
+    situation: 'prie-namo',
+    solution: 'Ilgas suolas prie krašto atlieka ir apsauginę funkciją',
     tags: ['medines'],
     summary: 'Medinė terasa prie svetainės durų su suolu, turėklais ir vaizdu į mišką.',
     description: [
@@ -179,6 +193,8 @@ export const projects: Project[] = [
     type: 'Terasa vakaro poilsiui',
     area: '≈ 25 m²',
     duration: '≈ 5 darbo dienos',
+    situation: 'mazas-kiemas',
+    solution: 'Dvi zonos – grilis ir sėdimoji vieta, apšvietimo laidai paslėpti konstrukcijoje',
     tags: ['wpc'],
     summary: 'Tamsi kompozitinė terasa su griliu, lauko sofa ir šiltu apšvietimu.',
     description: [
@@ -196,6 +212,8 @@ export const projects: Project[] = [
     type: 'Terasos atnaujinimas',
     area: '≈ 28 m²',
     duration: '≈ 3 darbo dienos',
+    situation: 'atnaujinimas',
+    solution: 'Išsaugota tvirta konstrukcija, pakeistos pažeistos lentos, paviršius nušlifuotas',
     tags: ['atnaujinimas', 'medines'],
     summary: 'Esama terasa su tvirta konstrukcija – pakeistos pažeistos lentos, paviršius nušlifuotas ir iš naujo apdorotas.',
     description: [
@@ -213,6 +231,8 @@ export const projects: Project[] = [
     type: 'Terasos atnaujinimas',
     area: '≈ 22 m²',
     duration: '≈ 4 darbo dienos',
+    situation: 'atnaujinimas',
+    solution: 'Sijos sustiprintos, turėklai tvirtinami prie konstrukcijos, o ne prie lentų',
     tags: ['atnaujinimas', 'medines'],
     summary: 'Pakeltos terasos danga ir turėklai pakeisti naujais, išsaugant esamas atramas.',
     description: [
@@ -230,6 +250,8 @@ export const projects: Project[] = [
     type: 'Terasos atnaujinimas',
     area: '≈ 32 m²',
     duration: '≈ 4 darbo dienos',
+    situation: 'atnaujinimas',
+    solution: 'Esamas pagrindas pritaikytas WPC – sutankintas lagų žingsnis',
     tags: ['atnaujinimas', 'wpc'],
     summary: 'Sena medinė danga pakeista kompozitinėmis lentomis, pritaikius esamą pagrindą.',
     description: [

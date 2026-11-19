@@ -57,7 +57,7 @@ export default function Planner() {
     () => {
       const mm = gsap.matchMedia()
       mm.add(MOTION_OK, () => {
-        gsap.from('[data-step] > *', { x: 36 * dir, autoAlpha: 0, duration: 0.6, ease: 'power3.out', stagger: 0.05 })
+        gsap.from('[data-step] > *', { x: 16 * dir, autoAlpha: 0, duration: 0.3, ease: 'power2.out' })
       })
     },
     { scope: ref, dependencies: [step], revertOnUpdate: true },
